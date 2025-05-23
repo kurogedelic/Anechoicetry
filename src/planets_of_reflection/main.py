@@ -165,18 +165,6 @@ class PlanetsOfReflection:
         # Draw planet with flat color
         pyxel.circ(x, y, size, planet["color"])
 
-        # Highlight
-        highlight_x = x - size // 3
-        highlight_y = y - size // 3
-        highlight_size = max(2, size // 4)
-        pyxel.circ(highlight_x, highlight_y, highlight_size, 7)
-
-        # Shadow
-        shadow_x = x + size // 4
-        shadow_y = y + size // 4
-        shadow_size = max(1, size // 6)
-        pyxel.circ(shadow_x, shadow_y, shadow_size, 0)
-
     def draw_orbital_paths(self):
         """Draw orbital paths"""
         for layer in self.orbital_layers:
@@ -235,25 +223,6 @@ class PlanetsOfReflection:
 
         for planet in sorted_planets:
             self.draw_planet(planet)
-
-        # Central gravity source (sun)
-        sun_pulse = 1 + 0.1 * math.sin(self.time * 0.03)
-        sun_size = int(15 * sun_pulse)
-        pyxel.circ(self.orbital_center_x, self.orbital_center_y, sun_size, 9)
-        pyxel.circ(self.orbital_center_x, self.orbital_center_y, sun_size - 3, 10)
-        pyxel.circ(self.orbital_center_x, self.orbital_center_y, sun_size - 6, 14)
-
-        # Gravity wave representation
-        if self.time % 90 < 45:
-            for radius in range(20, 60, 10):
-                ripple_alpha = 1.0 - ((self.time % 90) / 45.0)
-                if ripple_alpha > 0:
-                    for angle in range(0, 360, 15):
-                        rad = math.radians(angle)
-                        x = self.orbital_center_x + radius * math.cos(rad)
-                        y = self.orbital_center_y + radius * math.sin(rad)
-                        if 0 <= x < 512 and 0 <= y < 512:
-                            pyxel.pset(int(x), int(y), 6)
 
 
 PlanetsOfReflection()
