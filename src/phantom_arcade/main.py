@@ -185,43 +185,48 @@ class PhantomArcade:
         pyxel.run(self.update, self.draw)
         
     def setup_sound(self):
+        # Classic arcade coin/waka sound
         pyxel.sounds[0].set(
             "c2c2",
-            "p",
+            "t",
             "7",
             "v",
             5
         )
         
+        # Ghost movement sound
         pyxel.sounds[1].set(
             "e1g1e1g1",
             "t",
-            "7",
-            "n",
+            "7654",
+            "v",
             8
         )
         
+        # Power pellet collection
         pyxel.sounds[2].set(
             "c1c1g1g1e2e2c2c2",
-            "p",
-            "7",
-            "s",
+            "t",
+            "76543210",
+            "v",
             15
         )
         
+        # Power mode activation
         pyxel.sounds[3].set(
             "c3e3g3c4",
             "s",
-            "7",
-            "f",
+            "7654",
+            "v",
             10
         )
         
+        # Collision/glitch sound
         pyxel.sounds[4].set(
             "g1g1g1g1",
             "n",
-            "7",
-            "f",
+            "7654",
+            "v",
             4
         )
         
