@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<script src="https://cdn.jsdelivr.net/gh/kitao/pyxel/wasm/pyxel.js"></script>
+<script>
+let audioContext;
+let oscillator;
+let isPlaying = false;
+
+function createAmbientSound() {
+  if (!audioContext) {
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  
+  if (isPlaying) return;
+  
+  const now = audioContext.currentTime;
+  
+  // Create pulsing dusk ambient sound
+  oscillator = audioContext.createOscillator();
+  const gainNode = audioContext.createGain();
+  const filter = audioContext.createBiquadFilter();
+  
+  oscillator.connect(filter);
+  filter.connect(gainNode);
+  gainNode.connect(audioContext.destination);
+  
+  oscillator.type = 'triangle';
+  oscillator.frequency.setValueAtTime(65, now); // Lower dusk frequency
+  
+  filter.type = 'lowpass';
+  filter.frequency.setValueAtTime(200, now);
+  
+  gainNode.gain.setValueAtTime(0, now);
+  gainNode.gain.linearRampToValueAtTime(0.12, now + 2);
+  
+  oscillator.start(now);
+  isPlaying = true;
+  
+  // Add rhythmic pulsing effect
+  setInterval(() => {
+    if (oscillator && audioContext) {
+      const time = audioContext.currentTime;
+      const pulse = Math.sin(time * 1.2) * 0.6 + 0.4; // Faster pulse
+      gainNode.gain.setValueAtTime(0.12 * pulse, time);
+      oscillator.frequency.setValueAtTime(65 + Math.sin(time * 0.15) * 8, time);
+    }
+  }, 50);
+}
+
+window.addEventListener('click', () => {
+  createAmbientSound();
+}, { once: true });
+
+launchPyxel({ command: "play", name: "pulse_of_dusk.pyxapp", gamepad: "enabled", base64: "UEsDBBQAAAAIABV9vlosYEvPCQAAAAcAAAAkAAAAcHVsc2Vfb2ZfZHVzay8ucHl4YXBwX3N0YXJ0dXBfc2NyaXB0y03MzNMrqAQAUEsDBBQAAAAIALF8vlrJMnfw9AMAABsOAAAVAAAAcHVsc2Vfb2ZfZHVzay9tYWluLnB5nVdbj5s4FH7nVxzlpZAhDOlOtqtoUqk73adWe1GllapRZBFwEivcih0N7Kr/vcfmDoaZqaUkYJ/vXL9zIIvFwvj7GnIKyRE+XvkFVvAhpv45YT4VWQEPSRhSX7AkNg4FfKYJfLpmCT8z4RkfvewSU86Bh8lTWMAhY6ezoDGLT/DExBlS1CxvUi8TzA8pB3H2BBxD5l9oBl4cwNELqPGFCbqFsxAp397eXtDAiQYUpRw/iYzP6ErMUeDhAX7/uvryYfXnA9w5rvEvzTg6toW14+LtAmMxWJQmmYC0yGlY30SeONfXGRpFnYYfeui4Cv2vowx8awCugB6BEBYzQYjJaXi0yn25lE5Hnpmb9Vsb1JdgIqS7RS+HC6vBNBdSlyNYRGEHbn+3zc4OHvf9My86MBoLUqZWJbuLby6OSQYEWCzjO1Fz43b8HhtyvDSlcWD+35OR603+ZlvlyJE/LBamq0K17LFw8Rrh9Oxx2gKuMUOnIwmQ9XFSBkvQAtvYEe3qNMvkE55SGmj0Oy6WCb83Ot2c/afxab2x4c7VyZ+Q6STzAnblY9hbhP3qWj3Udw0XSiJl11gxzLmmgSeoXdYoyLwny2i4WJ4NmciOlY6DiFOzvPz0x1fyz6Dq5cm3KzJ2lpI3O1hPnGsJaKqKYWubrY6lzDEmGW5gbak7jUpJ05qFkq19Wg6cr7YfK+bspZudzU7R9xPADnP26Hbk5Q3dpPMjC6Xf7/oV7N1g5juETyLTgnsV+Ho7IkurPlfm9Z0yAyvmYA1FJGOGBDlgOMRPQkz3DiRqqpbYcpuNNWCmH3LT1RAGg+8ofg9uP2ZZ3KKdQW41Ie+scWqkaP4y0Zms/6KXbgNJORVmbkOB+jXxvIaNsuX0vHqvhsvYFUw7PraYKKoSTMCXGPUIW5fuUWYGh4oN72xYb/aPEdK2USwTth9hRxtyxj3nQ3ugJuJ+7JKafK9T1R2WGo3jqJGcNCP5yEKug1fS4/QWLzImix90OLhqArQ7scphpmeZwhc/j5crYFx4sU/VbJJD6VsmzCBfol83qHwZFONA6pXKNDUZQ/F8phla0UJpnhSdPED+u3C/k2bvZbOql7dypyh3psOs8E20CJLJmQeUjjddnGIbp8h41RnTWZELXxz7xppyPG9RiXY7d40vxGajbKUct+AWzLbG1eazurVTbGBwOTFlnve88X44O5qhYY5s4esWfsYjRLc0tWjNvaDf5gfob9NN1nmtnZ07a9eaaTWOuAsZ9Mzg0bqSdVzic6j8na5oqWzQVT+rrO6s2sNBe9W2XtBjnRJVyuwaLp8e+M7A5L+b2IsoIbDbwYKQyGMxIYtScefvkGn9AFBLAQIUAxQAAAAIABV9vlosYEvPCQAAAAcAAAAkAAAAAAAAAAAAAACkgQAAAABwdWxzZV9vZl9kdXNrLy5weXhhcHBfc3RhcnR1cF9zY3JpcHRQSwECFAMUAAAACACxfL5ayTJ38PQDAAAbDgAAFQAAAAAAAAAAAAAApIFLAAAAcHVsc2Vfb2ZfZHVzay9tYWluLnB5UEsFBgAAAAACAAIAlQAAAHIEAAAAAA==" });
+</script>
