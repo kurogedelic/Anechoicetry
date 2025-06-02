@@ -82,3 +82,41 @@ Version: X.X.X
 - Subtle variations in size, position, and color
 - Elements that occasionally appear/disappear
 - Non-interactive observation pieces
+
+### Code Architecture
+Each piece follows a standardized class-based structure:
+```python
+class PieceName:
+    def __init__(self):
+        pyxel.init(512, 512, title="Piece Name")
+        # Initialize sound design (5-7 sounds per piece)
+        # Set up procedural systems
+        pyxel.run(self.update, self.draw)
+    
+    def update(self):
+        if pyxel.btnp(pyxel.KEY_Q):
+            pyxel.quit()
+        # Update logic here
+    
+    def draw(self):
+        # Rendering logic here
+```
+
+### Sound Design Integration
+All pieces include comprehensive audio landscapes:
+- 5-7 sounds per piece using `pyxel.sounds[n].set()`
+- Event-driven playback with `pyxel.play()`
+- Probabilistic triggers for ambient audio
+- Contextual sounds for visual events
+
+### Development Workflow
+```bash
+# Develop and test changes
+pyxel run src/<piece_name>/main.py
+
+# Package for distribution
+pyxel package src/<piece_name> main.py
+
+# Deploy to web (generates docs/<piece_name>.html)
+pyxel app2html apps/<piece_name>.pyxapp
+```
