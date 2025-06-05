@@ -50,39 +50,56 @@ class Shore:
         self.wave_timer = 0
         self.time = 0
         
+        # Simple noise particles
+        self.noise_particles = []
+        self.init_noise_particles()
+        
         # Frame counter and wave sound system
         self.frame = 0
         self.wave_sound_phase = 0
         self.wave_sound_intensity = 0.5
         self.continuous_wave_playing = False
         
+        # LFO-like volume modulation system
+        self.lfo_phase = 0.0
+        self.lfo_speed = 0.02  # Slow LFO
+        self.current_volume_level = 0
+        self.noise_playing = False
+        
         pyxel.run(self.update, self.draw)
     
     def init_sounds(self):
-        # Sound 0: High freq wave noise (brighter)
+        # Sound 0: Continuous noise - volume level 1 (quietest)
         pyxel.sounds[0].set(
-            "c2d2e2f2g2f2e2d2c2b1a1g1", "n", "2222221111111122222211", "ffffssssssssssffffffffff", 90
+            "c1c1c1c1c1c1c1c1", "n", "11111111", "ffffffff", 30
         )
         
-        # Sound 1: High freq wave wash noise
+        # Sound 1: Continuous noise - volume level 2
         pyxel.sounds[1].set(
-            "a1b1c2d2e2f2g2a2g2f2e2d2", "n", "322222221111", "sssssffffff", 45
+            "c1c1c1c1c1c1c1c1", "n", "22222222", "ffffffff", 30
         )
         
-        # Sound 2: Mid-high freq water noise
+        # Sound 2: Continuous noise - volume level 3
         pyxel.sounds[2].set(
-            "f1g1a1b1c2d2e2f2e2d2c2b1", "n", "211111122221", "ffffffffffff", 60
+            "c1c1c1c1c1c1c1c1", "n", "33333333", "ffffffff", 30
         )
         
-        # Sound 3: High freq ambient noise (hissing)
+        # Sound 3: Continuous noise - volume level 4 (loudest)
         pyxel.sounds[3].set(
-            "c2d2e2f2g2a2b2c3", "n", "11111111", "ffffffff", 30
+            "c1c1c1c1c1c1c1c1", "n", "44444444", "ffffffff", 30
         )
-        
-        # Sound 4: High freq breeze noise
-        pyxel.sounds[4].set(
-            "c1d1e1f1g1a1b1c2d2e2", "n", "1111111111", "ffffffffff", 120
-        )
+    
+    def init_noise_particles(self):
+        # Simple noise particles scattered across the screen
+        particle_count = 150
+        for _ in range(particle_count):
+            self.noise_particles.append({
+                'x': random.randint(0, 511),
+                'y': random.randint(0, 511),
+                'life': random.uniform(0.1, 1.0),
+                'decay_rate': random.uniform(0.001, 0.005),
+                'color': random.choice([5, 6, 7])  # Various gray tones
+            })
     
     def init_stars(self):
         # Create stars in upper half of screen
@@ -123,6 +140,17 @@ class Shore:
             pyxel.quit()
         
         self.frame += 1
+        
+        # Update noise particles
+        for particle in self.noise_particles:
+            particle['life'] -= particle['decay_rate']
+            if particle['life'] <= 0:
+                # Regenerate particle
+                particle['x'] = random.randint(0, 511)
+                particle['y'] = random.randint(0, 511)
+                particle['life'] = random.uniform(0.1, 1.0)
+                particle['decay_rate'] = random.uniform(0.001, 0.005)
+                particle['color'] = random.choice([5, 6, 7])
         
         # Update wave segments
         self.time += 1
@@ -183,21 +211,19 @@ class Shore:
                     line['width'] = random.randint(5, 30)
                     line['visible'] = random.random() > 0.4
         
-        # Dynamic wave sound system
-        self.update_wave_sounds()
-        
-        # Very gentle accent sounds
-        if random.random() < 0.003:
-            pyxel.play(2, 1)  # Soft wave
-        if random.random() < 0.002:
-            pyxel.play(3, 4)  # Gentle breeze
+        # Simple noise sequence
+        self.update_noise_sounds()
     
     def draw(self):
         # Clear to black (night sky)
         pyxel.cls(0)
         
-        # Draw subtle night sky texture (removed to fix glitch)
-        # Keep sky pure black for clean aesthetic
+        # Draw noise particles
+        for particle in self.noise_particles:
+            if particle['life'] > 0.2:  # Only draw visible particles
+                opacity_factor = min(1.0, particle['life'])
+                if random.random() < opacity_factor * 0.8:  # Flickering effect
+                    pyxel.pset(particle['x'], particle['y'], particle['color'])
         
         # Draw horizon line
         pyxel.line(0, self.horizon_y, 511, self.horizon_y, 7)
@@ -317,39 +343,24 @@ class Shore:
         segment['life'] = random.uniform(0.4, 1.0)  # Stagger regenerated life
         segment['decay_rate'] = random.uniform(0.001, 0.003)  # New decay rate
 
-    def update_wave_sounds(self):
-        # Update wave sound phase for gentle periodic changes
-        self.wave_sound_phase += 0.008  # Slower, more gentle rhythm
+    def update_noise_sounds(self):
+        # Update LFO phase
+        self.lfo_phase += self.lfo_speed
         
-        # Calculate wave intensity using gentle sine waves
-        primary_wave = math.sin(self.wave_sound_phase) * 0.3
-        secondary_wave = math.sin(self.wave_sound_phase * 0.6 + 1.8) * 0.15
+        # Calculate volume level based on sine wave LFO (0-3 range)
+        lfo_value = math.sin(self.lfo_phase)
+        volume_level = int((lfo_value + 1.0) * 1.5)  # Map -1,1 to 0,3
+        volume_level = max(0, min(3, volume_level))
         
-        # Combine waves and keep in gentle range
-        self.wave_sound_intensity = 0.2 + (primary_wave + secondary_wave)
-        self.wave_sound_intensity = max(0.1, min(0.6, self.wave_sound_intensity))
+        # Switch sound based on volume level for continuous modulation
+        if volume_level != self.current_volume_level:
+            self.current_volume_level = volume_level
+            pyxel.play(0, volume_level)  # Play appropriate volume level
         
-        # Play gentle wave sounds based on intensity
-        if self.wave_sound_intensity > 0.45:
-            # Higher intensity - gentle wave sound
-            if random.random() < 0.1:  # Less frequent
-                pyxel.play(0, 0)
-        elif self.wave_sound_intensity > 0.35:
-            # Medium intensity - soft wash
-            if random.random() < 0.08:
-                pyxel.play(1, 1)
-        elif self.wave_sound_intensity > 0.25:
-            # Low intensity - distant water
-            if random.random() < 0.05:
-                pyxel.play(2, 2)
-        
-        # Very subtle ambient noise occasionally
-        if random.random() < 0.02:
-            pyxel.play(3, 3)
-        
-        # Gentle breeze occasionally
-        if random.random() < 0.008:
-            pyxel.play(1, 4)
+        # Start initial noise if not playing
+        if not self.noise_playing:
+            pyxel.play(0, self.current_volume_level)
+            self.noise_playing = True
 
 if __name__ == "__main__":
     Shore()
