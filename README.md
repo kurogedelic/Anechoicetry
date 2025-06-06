@@ -14,7 +14,7 @@ yet nothing begins.
 
 ## Collection Catalog
 
-**Published Works (15/30):**
+**Published Works (16/30):**
 
 1. **Urban Growth** - #Anechoicetry 1/30 ✅ Published
 2. **Planets of Reflection** - #Anechoicetry 2/30 ✅ Published
@@ -29,14 +29,15 @@ yet nothing begins.
 11. **Barcodes** - #Anechoicetry 11/30 ✅ Published
 12. **Screen Damage** - #Anechoicetry 12/30 ✅ Published
 13. **Pulse of Dusk** - #Anechoicetry 13/30 ✅ Published
-14. **Crows Play** - #Anechoicetry 14/30 ✅ Published
-15. **Echo Chamber** - #Anechoicetry 15/30 ✅ Published
+14. **Shore** - #Anechoicetry 14/30 ✅ Published
+15. **Crows Play** - #Anechoicetry 15/30 ✅ Published
+16. **Echo Chamber** - #Anechoicetry 16/30 ✅ Published
 
 **Collection Status:**
-- Total Sketches: 15/30
-- Published: 15/30 (50%)
+- Total Sketches: 16/30
+- Published: 16/30 (53%)
 - Ready for Publication: 0
-- Remaining to Create: 15
+- Remaining to Create: 14
 
 ---
 
@@ -57,11 +58,11 @@ All sketches now have complete file sets:
 - ✅ Cleaned up orphaned files
 
 **Project Health:**
-- All 15 sketches have complete file sets
+- All 16 sketches have complete file sets
 - No orphaned files remaining
 - Consistent naming conventions enforced
 - All packages verified and deployable
-- Collection now at 50% completion milestone
+- Collection now past 50% completion (53%)
 
 ---
 
