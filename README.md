@@ -35,19 +35,20 @@ yet nothing begins.
 17. **Digital Rain** - #Anechoicetry 17/30 ✅ Published
 18. **Pendulum Garden** - #Anechoicetry 18/30 ✅ Published
 19. **Paper Birds** - #Anechoicetry 19/30 ✅ Published
-20. **Sketch Visuals** - #Anechoicetry 20/30 ✅ Published (Tribute to Nam June Paik)
+20. **Visuals** - #Anechoicetry 20/30 ✅ Published (Tribute to Nam June Paik)
 21. **Supremus** - #Anechoicetry 21/30 ✅ Published (Tribute to Kazimir Malevich)
 22. **Oscilloscope** - #Anechoicetry 22/30 ✅ Published
 23. **Signal Static** - #Anechoicetry 23/30 ✅ Published
 24. **Aurora Borealis** - #Anechoicetry 24/30 ✅ Published
 25. **Proun** - #Anechoicetry 25/30 ✅ Published (Tribute to El Lissitzky)
 26. **Memory Palace** - #Anechoicetry 26/30 📋 Planned
-27. **Clockwork Dreams** - #Anechoicetry 27/30 📋 Planned  
+27. **Clockwork Dreams** - #Anechoicetry 27/30 📋 Planned
 28. **Floating in the Sky** - #Anechoicetry 28/30 ✅ Published (Tribute to René Magritte)
 29. **Fermata** - #Anechoicetry 29/30 ✅ Published (Tribute to Paul Klee)
 30. **[Final Piece]** - #Anechoicetry 30/30 📋 Planned
 
 **Collection Status:**
+
 - Total Sketches: 28/30
 - Published: 27/30 (90%)
 - In Development: 0/30 (0%)
@@ -60,11 +61,13 @@ yet nothing begins.
 **File Structure Status: ✅ CLEAN**
 
 All sketches now have complete file sets:
+
 - Python source: `src/[name]/main.py`
-- Packaged app: `apps/[name].pyxapp` 
+- Packaged app: `apps/[name].pyxapp`
 - Web version: `docs/[name].html`
 
 **Recent Fixes Applied:**
+
 - ✅ Created missing `docs/mars.html`
 - ✅ Moved misplaced `.pyxapp` files to `apps/`
 - ✅ Moved misplaced `.html` files to `docs/`
@@ -72,6 +75,7 @@ All sketches now have complete file sets:
 - ✅ Cleaned up orphaned files
 
 **Project Health:**
+
 - All 19 sketches have complete file sets
 - No orphaned files remaining
 - Consistent naming conventions enforced

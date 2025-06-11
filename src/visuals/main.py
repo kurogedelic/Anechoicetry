@@ -185,13 +185,13 @@ class SketchVisuals:
     def __init__(self):
         pyxel.init(512, 512, title="Sketch Visuals")
         
-        # Sound design - video art, electronic, glitchy
-        pyxel.sounds[0].set("c2e2g2b2", "p", "7654", "v", 25)    # Synchronized pulse
-        pyxel.sounds[1].set("f1", "n", "76543210", "f", 20)      # Video noise
-        pyxel.sounds[2].set("g2d3a3", "s", "432", "v", 18)       # Desync alert
-        pyxel.sounds[3].set("c1f1a1", "n", "321", "f", 15)       # Glitch burst
-        pyxel.sounds[4].set("e2g2b2d3", "t", "5432", "f", 30)    # System hum
-        pyxel.sounds[5].set("a1", "n", "7654", "f", 12)          # Static pop
+        # Sound design - TV drone and noise
+        pyxel.sounds[0].set("c1", "t", "7654", "f", 40)          # Deep sine drone
+        pyxel.sounds[1].set("f1", "n", "7654", "f", 35)          # TV static noise
+        pyxel.sounds[2].set("g1", "t", "432", "f", 30)           # Mid sine drone
+        pyxel.sounds[3].set("c1", "n", "765", "f", 25)           # White noise burst
+        pyxel.sounds[4].set("a1", "t", "543", "f", 45)           # Low sine hum
+        pyxel.sounds[5].set("e1", "n", "321", "f", 20)           # High frequency noise
         
         # Create grid of video tiles
         self.tile_size = 64
@@ -259,38 +259,42 @@ class SketchVisuals:
                     tile.glitch_intensity = random.uniform(0.2, 0.7)  # Stronger glitches
             self.system_glitch_timer = 0
         
-        # Audio triggers
+        # Audio triggers - TV drone and noise
         self.sync_sound_timer += 1
         
-        # Synchronized pulse
-        if self.sync_sound_timer % 120 == 0:
-            pyxel.play(0, 0, loop=False)
+        # Continuous deep sine drone
+        if self.sync_sound_timer % 200 == 0:
+            pyxel.play(0, 0, loop=False)  # Deep sine drone
         
-        # System hum
-        if self.sync_sound_timer % 180 == 90 and random.random() < 0.6:
-            pyxel.play(1, 4, loop=False)
+        # Continuous TV static background
+        if self.sync_sound_timer % 150 == 75:
+            pyxel.play(1, 1, loop=False)  # TV static noise
         
-        # Desync sounds - more frequent with multiple rebels
+        # Mid frequency drone (intermittent)
+        if self.sync_sound_timer % 250 == 125 and random.random() < 0.7:
+            pyxel.play(2, 2, loop=False)  # Mid sine drone
+        
+        # Low frequency hum (continuous bass)
+        if self.sync_sound_timer % 300 == 0:
+            pyxel.play(0, 4, loop=False)  # Low sine hum
+        
+        # Noise bursts when rebels appear
         for rebel in self.current_rebels:
-            if rebel.rebel_timer % 60 == 30:
-                if random.random() < 0.3:
-                    pyxel.play(2, 2, loop=False)  # Desync alert
+            if rebel.rebel_timer % 80 == 40:
+                if random.random() < 0.4:
+                    pyxel.play(1, 3, loop=False)  # White noise burst
         
-        # Glitch sounds - scale with number of rebels
-        if self.current_rebels and random.random() < (0.03 + len(self.current_rebels) * 0.01):
-            pyxel.play(1, 3, loop=False)  # Glitch burst
+        # High frequency noise - correlates with chaos
+        if self.current_rebels and random.random() < (0.02 + len(self.current_rebels) * 0.015):
+            pyxel.play(2, 5, loop=False)  # High frequency noise
         
-        # Chaos mode audio
-        if self.chaos_mode and random.random() < 0.1:
-            pyxel.play(0, 1, loop=False)  # Extra video noise during chaos
+        # Chaos mode - intense noise layer
+        if self.chaos_mode and random.random() < 0.15:
+            pyxel.play(1, 1, loop=False)  # Extra static during chaos
         
-        # Video noise
-        if self.global_frame % 90 == 45 and random.random() < 0.3:
-            pyxel.play(0, 1, loop=False)
-        
-        # Static pops
-        if random.random() < 0.02:
-            pyxel.play(2, 5, loop=False)
+        # Random TV noise pops
+        if random.random() < 0.03:
+            pyxel.play(1, 3, loop=False)  # Random noise pop
     
     def change_rebel_tile(self):
         """Manage multiple rebellious tiles"""
