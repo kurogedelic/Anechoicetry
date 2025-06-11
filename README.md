@@ -14,7 +14,7 @@ yet nothing begins.
 
 ## Collection Catalog
 
-**Published Works (19/30):**
+**Published Works (27/30):**
 
 1. **Urban Growth** - #Anechoicetry 1/30 ✅ Published
 2. **Planets of Reflection** - #Anechoicetry 2/30 ✅ Published
@@ -35,12 +35,23 @@ yet nothing begins.
 17. **Digital Rain** - #Anechoicetry 17/30 ✅ Published
 18. **Pendulum Garden** - #Anechoicetry 18/30 ✅ Published
 19. **Paper Birds** - #Anechoicetry 19/30 ✅ Published
+20. **Sketch Visuals** - #Anechoicetry 20/30 ✅ Published (Tribute to Nam June Paik)
+21. **Supremus** - #Anechoicetry 21/30 ✅ Published (Tribute to Kazimir Malevich)
+22. **Oscilloscope** - #Anechoicetry 22/30 ✅ Published
+23. **Signal Static** - #Anechoicetry 23/30 ✅ Published
+24. **Aurora Borealis** - #Anechoicetry 24/30 ✅ Published
+25. **Proun** - #Anechoicetry 25/30 ✅ Published (Tribute to El Lissitzky)
+26. **Memory Palace** - #Anechoicetry 26/30 📋 Planned
+27. **Clockwork Dreams** - #Anechoicetry 27/30 📋 Planned  
+28. **Floating in the Sky** - #Anechoicetry 28/30 ✅ Published (Tribute to René Magritte)
+29. **Fermata** - #Anechoicetry 29/30 ✅ Published (Tribute to Paul Klee)
+30. **[Final Piece]** - #Anechoicetry 30/30 📋 Planned
 
 **Collection Status:**
-- Total Sketches: 19/30
-- Published: 19/30 (63%)
-- Ready for Publication: 0
-- Remaining to Create: 11
+- Total Sketches: 28/30
+- Published: 27/30 (90%)
+- In Development: 0/30 (0%)
+- Remaining to Create: 3/30 (10%)
 
 ---
 
