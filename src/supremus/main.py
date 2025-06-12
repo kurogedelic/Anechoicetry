@@ -22,7 +22,7 @@ class SuprematistShape:
         self.height = random.uniform(40, 120) if shape_type == 'rectangle' else self.width
         self.rotation = random.uniform(0, math.pi * 2)
         # Correct Malevich colors: red, orange, black, blue, green
-        self.color = random.choice([8, 9, 0, 12, 11])  # Orange, brown-orange, black, blue, green
+        self.color = random.choice([8, 9, 0, 12, 11])  # Red, orange, black, blue, green
         
         # Movement properties
         self.drift_speed = random.uniform(0.005, 0.02)
@@ -213,13 +213,13 @@ class Supremus:
     def __init__(self):
         pyxel.init(512, 512, title="Supremus")
         
-        # Sound design - minimalist, abstract, contemplative
-        pyxel.sounds[0].set("c3e3g3", "t", "543", "f", 30)    # Minimalist harmony
-        pyxel.sounds[1].set("f2a2c3", "t", "432", "f", 25)    # Geometric resonance
-        pyxel.sounds[2].set("g2b2d3", "s", "321", "v", 20)    # Movement sound
-        pyxel.sounds[3].set("d3f3a3", "p", "654", "s", 35)    # Connection tone
-        pyxel.sounds[4].set("a2c3e3", "t", "765", "f", 40)    # Deep contemplation
-        pyxel.sounds[5].set("e3g3", "t", "21", "f", 15)       # Subtle accent
+        # Sound design - footstep-like white noise rustle
+        pyxel.sounds[0].set("c2", "n", "543", "f", 20)        # Soft footstep rustle
+        pyxel.sounds[1].set("f2", "n", "432", "f", 18)        # Light step noise
+        pyxel.sounds[2].set("g2", "n", "321", "f", 15)        # Gentle rustle
+        pyxel.sounds[3].set("d2", "n", "654", "f", 25)        # Heavier step
+        pyxel.sounds[4].set("a1", "n", "765", "f", 30)        # Deep footfall
+        pyxel.sounds[5].set("e2", "n", "21", "f", 10)         # Subtle shuffle
         
         # Create suprematist shapes
         self.shapes = []
@@ -302,35 +302,37 @@ class Supremus:
         # Update composition dynamics
         self.composition_phase += 0.005
         
-        # Sound triggers - very sparse and contemplative
-        if self.time % 300 == 0 and random.random() < 0.6:
-            pyxel.play(0, 0, loop=False)  # Minimalist harmony
+        # Sound triggers - rhythmic footstep sequence
+        # Main rhythmic pattern - every 60 frames (2 seconds)
+        if self.time % 60 == 0:
+            pyxel.play(0, 0, loop=False)  # Soft footstep rustle
         
-        if self.time % 240 == 120 and random.random() < 0.4:
-            pyxel.play(1, 4, loop=False)  # Deep contemplation
+        if self.time % 60 == 20:
+            pyxel.play(1, 1, loop=False)  # Light step noise
         
-        # Geometric resonance when shapes align
-        if self.time % 180 == 90 and random.random() < 0.3:
-            pyxel.play(2, 1, loop=False)  # Geometric resonance
+        if self.time % 60 == 40:
+            pyxel.play(2, 2, loop=False)  # Gentle rustle
         
-        # Movement sounds - very subtle
-        if self.time % 200 == 100 and random.random() < 0.25:
-            pyxel.play(1, 2, loop=False)  # Movement sound
+        # Secondary rhythm - every 120 frames (4 seconds)
+        if self.time % 120 == 60:
+            pyxel.play(0, 3, loop=False)  # Heavier step
         
-        # Connection tones when shapes are in harmony
-        if self.time % 360 == 180 and random.random() < 0.5:
-            pyxel.play(0, 3, loop=False)  # Connection tone
+        # Accent pattern - every 240 frames (8 seconds)  
+        if self.time % 240 == 0:
+            pyxel.play(1, 4, loop=False)  # Deep footfall
         
-        # Subtle accents
-        if self.time % 150 == 75 and random.random() < 0.2:
-            pyxel.play(2, 5, loop=False)  # Subtle accent
+        if self.time % 240 == 80:
+            pyxel.play(2, 5, loop=False)  # Subtle shuffle
+        
+        if self.time % 240 == 160:
+            pyxel.play(0, 1, loop=False)  # Light step accent
+        
         
         self.time += 1
     
     def draw(self):
-        # Flesh-colored canvas background (Malevich's choice)
-        flesh_color = 4  # Using Pyxel's brownish color as flesh tone
-        pyxel.cls(flesh_color)
+        # White canvas background
+        pyxel.cls(7)  # White color
         
         # Optional: Add subtle texture to canvas
         if random.random() < 0.01:
