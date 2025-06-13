@@ -37,10 +37,10 @@ yet nothing begins.
 19. **Paper Birds** - #Anechoicetry 19/30 ✅ Published
 20. **Visuals** - #Anechoicetry 20/30 ✅ Published (Tribute to Nam June Paik)
 21. **Supremus** - #Anechoicetry 21/30 ✅ Published (Tribute to Kazimir Malevich)
-22. **Oscilloscope** - #Anechoicetry 22/30 ✅ Published
+22. **Proun** - #Anechoicetry 22/30 ✅ Published (Tribute to El Lissitzky)
 23. **Signal Static** - #Anechoicetry 23/30 ✅ Published
 24. **Aurora Borealis** - #Anechoicetry 24/30 ✅ Published
-25. **Proun** - #Anechoicetry 25/30 ✅ Published (Tribute to El Lissitzky)
+25. **Oscilloscope** - #Anechoicetry 25/30 ✅ Published
 26. **Memory Palace** - #Anechoicetry 26/30 📋 Planned
 27. **Clockwork Dreams** - #Anechoicetry 27/30 📋 Planned
 28. **Floating in the Sky** - #Anechoicetry 28/30 ✅ Published (Tribute to René Magritte)
