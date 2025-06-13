@@ -22,24 +22,26 @@ class ConstructivistElement:
         self.base_z = z
         self.element_type = element_type  # 'number', 'text', 'square', 'circle'
         
-        # Element properties - bigger sizes, no text
+        # Element properties - much bigger sizes, no text
         if element_type == 'number':
-            self.content = str(random.randint(0, 9))
-            self.size = random.uniform(40, 80)  # Much bigger numbers
+            # Include number 2 more frequently in the selection
+            numbers = [0, 1, 2, 2, 2, 3, 4, 5, 6, 7, 8, 9]  # More 2s
+            self.content = str(random.choice(numbers))
+            self.size = random.uniform(60, 120)  # Much bigger numbers
             self.color = 0  # Black
         elif element_type == 'text':
             # Skip text elements - convert to geometric shapes instead
             self.element_type = 'square'
             self.content = None
-            self.size = random.uniform(30, 60)
+            self.size = random.uniform(50, 90)
             self.color = random.choice([0, 8])  # Black or red
         elif element_type == 'square':
             self.content = None
-            self.size = random.uniform(30, 70)  # Bigger squares
+            self.size = random.uniform(50, 100)  # Much bigger squares
             self.color = random.choice([0, 8])  # Black or red
         elif element_type == 'circle':
             self.content = None
-            self.size = random.uniform(25, 60)  # Bigger circles
+            self.size = random.uniform(40, 80)  # Much bigger circles
             self.color = random.choice([0, 8])  # Black or red
         
         # 3D movement properties
@@ -166,24 +168,16 @@ class ConstructivistElement:
             ry = x * sin_z + y * cos_z
             rotated_corners.append((int(center_x + rx), int(center_y + ry)))
         
-        # Draw square
-        if self.color == 8:  # Red - draw filled
-            self.draw_filled_polygon(rotated_corners)
-        else:  # Black - draw outline
-            for i in range(4):
-                x1, y1 = rotated_corners[i]
-                x2, y2 = rotated_corners[(i + 1) % 4]
-                if (0 <= x1 < 512 and 0 <= y1 < 512 and 
-                    0 <= x2 < 512 and 0 <= y2 < 512):
-                    pyxel.line(x1, y1, x2, y2, self.color)
+        # Draw square - all filled, no borders
+        self.draw_filled_polygon(rotated_corners)
     
     def draw_filled_polygon(self, corners):
-        """Simple polygon fill"""
+        """Robust polygon fill without gaps"""
         if len(corners) < 3:
             return
             
-        min_y = min(corner[1] for corner in corners)
-        max_y = max(corner[1] for corner in corners)
+        min_y = min(corner[1] for corner in corners) - 1
+        max_y = max(corner[1] for corner in corners) + 1
         
         for y in range(min_y, max_y + 1):
             if y < 0 or y >= 512:
@@ -194,28 +188,54 @@ class ConstructivistElement:
                 x1, y1 = corners[i]
                 x2, y2 = corners[(i + 1) % len(corners)]
                 
-                if y1 != y2:
-                    if min(y1, y2) <= y <= max(y1, y2):
-                        x = x1 + (y - y1) * (x2 - x1) / (y2 - y1)
-                        intersections.append(int(x))
+                # Handle horizontal edges
+                if y1 == y2:
+                    if y == y1:
+                        intersections.extend([x1, x2])
+                    continue
+                
+                # Check if scan line intersects edge
+                if min(y1, y2) < y < max(y1, y2):
+                    x = x1 + (y - y1) * (x2 - x1) / (y2 - y1)
+                    intersections.append(x)
+                elif y == y1:
+                    intersections.append(x1)
+                elif y == y2:
+                    intersections.append(x2)
             
-            intersections.sort()
-            for i in range(0, len(intersections) - 1, 2):
-                x1, x2 = intersections[i], intersections[i + 1]
-                for x in range(max(0, x1), min(512, x2 + 1)):
-                    pyxel.pset(x, y, self.color)
+            if len(intersections) >= 2:
+                intersections.sort()
+                # Remove duplicates
+                unique_intersections = []
+                for x in intersections:
+                    if not unique_intersections or abs(x - unique_intersections[-1]) > 0.5:
+                        unique_intersections.append(x)
+                
+                # Fill between pairs
+                for i in range(0, len(unique_intersections) - 1, 2):
+                    if i + 1 < len(unique_intersections):
+                        x1, x2 = int(unique_intersections[i]), int(unique_intersections[i + 1])
+                        if x1 > x2:
+                            x1, x2 = x2, x1
+                        
+                        # Fill with extra coverage to eliminate gaps
+                        for x in range(max(0, x1 - 1), min(512, x2 + 2)):
+                            if 0 <= x < 512 and 0 <= y < 512:
+                                pyxel.pset(x, y, self.color)
 
 class Proun:
     def __init__(self):
         pyxel.init(512, 512, title="Proun")
         
-        # Sound design - minimal staccato sequences
+        # Sound design - minimal staccato sequences with drum sounds
         pyxel.sounds[0].set("c3", "p", "7", "s", 8)           # Short staccato
         pyxel.sounds[1].set("f3", "p", "6", "s", 6)           # Brief note
         pyxel.sounds[2].set("g3", "p", "5", "s", 10)          # Quick pulse
         pyxel.sounds[3].set("d3", "p", "4", "s", 7)           # Minimal click
         pyxel.sounds[4].set("a2", "p", "3", "s", 9)           # Short burst
         pyxel.sounds[5].set("e3", "p", "2", "s", 5)           # Tiny staccato
+        pyxel.sounds[6].set("c1", "n", "7", "n", 15)          # Low kick drum
+        pyxel.sounds[7].set("c4", "n", "4", "n", 8)           # High snare
         
         # Create constructivist elements in 3D space
         self.elements = []
@@ -258,28 +278,41 @@ class Proun:
         # Update construction phase
         self.construction_phase += 0.01
         
-        # Sound triggers - minimal staccato sequences
-        if self.time % 180 == 0 and random.random() < 0.3:
-            pyxel.play(0, 0, loop=False)  # Short staccato
+        # Sound triggers - synchronized rhythmic sequence with white noise drums
+        beat = self.time % 120  # 4-second loop at 30fps
         
-        if self.time % 220 == 110 and random.random() < 0.25:
+        # White noise kick drum - on beats 1 and 3
+        if beat in [0, 60]:
+            pyxel.play(0, 6, loop=False)  # White noise kick
+        
+        # White noise snare - on beats 2 and 4
+        if beat in [30, 90]:
+            pyxel.play(1, 7, loop=False)  # White noise snare
+        
+        # Melodic elements synchronized to the drum pattern
+        if beat == 0:  # Downbeat
+            pyxel.play(2, 0, loop=False)  # Short staccato
+        
+        if beat == 15:  # Off-beat
             pyxel.play(1, 1, loop=False)  # Brief note
         
-        # Quick pulse
-        if self.time % 160 == 80 and random.random() < 0.2:
-            pyxel.play(2, 2, loop=False)  # Quick pulse
+        if beat == 30:  # Snare beat
+            pyxel.play(0, 2, loop=False)  # Quick pulse
         
-        # Minimal clicks
-        if self.time % 140 == 70 and random.random() < 0.15:
-            pyxel.play(1, 3, loop=False)  # Minimal click
+        if beat == 45:  # Syncopated
+            pyxel.play(2, 3, loop=False)  # Minimal click
         
-        # Short bursts
-        if self.time % 200 == 100 and random.random() < 0.2:
-            pyxel.play(0, 4, loop=False)  # Short burst
+        if beat == 60:  # Half note
+            pyxel.play(1, 4, loop=False)  # Short burst
         
-        # Tiny staccatos
-        if self.time % 120 == 60 and random.random() < 0.1:
-            pyxel.play(2, 5, loop=False)  # Tiny staccato
+        if beat == 75:  # Off-beat accent
+            if random.random() < 0.6:
+                pyxel.play(0, 5, loop=False)  # Tiny staccato
+        
+        # Additional rhythmic fills
+        if beat in [105, 110, 115]:  # End of phrase fills
+            if random.random() < 0.3:
+                pyxel.play(2, 7, loop=False)  # Snare fill
         
         self.time += 1
     
@@ -294,28 +327,6 @@ class Proun:
         for element in sorted_elements:
             element.draw()
         
-        # Draw construction grid lines occasionally
-        if int(self.construction_phase * 10) % 100 < 30:
-            self.draw_construction_grid()
     
-    def draw_construction_grid(self):
-        """Draw faint construction/architectural grid lines"""
-        grid_color = 5  # Gray
-        
-        # Vertical construction lines
-        for x in range(0, 512, 64):
-            if random.random() < 0.3:
-                pyxel.line(x, 0, x, 512, grid_color)
-        
-        # Horizontal construction lines
-        for y in range(0, 512, 64):
-            if random.random() < 0.3:
-                pyxel.line(0, y, 512, y, grid_color)
-        
-        # Diagonal construction lines (Lissitzky style)
-        if random.random() < 0.2:
-            pyxel.line(0, 0, 512, 512, grid_color)
-        if random.random() < 0.2:
-            pyxel.line(512, 0, 0, 512, grid_color)
 
 Proun()
