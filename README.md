@@ -17,7 +17,7 @@ yet nothing begins.
 **Published Works (28/30):**
 
 1. [**Urban Growth**](https://kurogedelic.github.io/Anechoicetry/urban_growth.html) - #Anechoicetry 1/30 ✅ Published
-2. [**Planets of Reflection**](https://kurogedelic.github.io/Anechoicetry/planets_of_reflection.html) - #Anechoicetry 2/30 ✅ Published
+2. [**Planets of Reflection**](https://kurogedelic.github.io/Anechoicetry/planets_of_reflection.html) - #Anechoicetry 2/30 ✅ Published (Tribute to Oskar Fischinger)
 3. [**Quiet Point and Line**](https://kurogedelic.github.io/Anechoicetry/quiet_point_line.html) - #Anechoicetry 3/30 ✅ Published
 4. [**Grid of Colour**](https://kurogedelic.github.io/Anechoicetry/grid_of_colour.html) - #Anechoicetry 4/30 ✅ Published
 5. [**Data Duplex**](https://kurogedelic.github.io/Anechoicetry/data_duplex.html) - #Anechoicetry 5/30 ✅ Published
