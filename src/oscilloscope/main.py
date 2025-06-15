@@ -12,12 +12,13 @@ import math
 import random
 
 class WaveSignal:
-    def __init__(self, signal_type):
+    def __init__(self, signal_type, color=11):
         self.signal_type = signal_type  # 'sine', 'square', 'sawtooth', 'triangle', 'noise'
         self.frequency = random.uniform(0.01, 0.05)
         self.amplitude = random.uniform(50, 150)
         self.phase = random.uniform(0, math.pi * 2)
         self.y_offset = random.uniform(100, 400)
+        self.color = color  # Waveform color
         
         # Signal modulation
         self.mod_frequency = random.uniform(0.001, 0.01)
@@ -80,9 +81,9 @@ class WaveSignal:
                 # Draw line segment
                 for thickness in range(self.thickness):
                     if 0 <= y + thickness < 512:
-                        pyxel.line(x - 2, prev_y + thickness, x, y + thickness, 11)  # Green
+                        pyxel.line(x - 2, prev_y + thickness, x, y + thickness, self.color)
                     if thickness > 0 and 0 <= y - thickness < 512:
-                        pyxel.line(x - 2, prev_y - thickness, x, y - thickness, 11)  # Green
+                        pyxel.line(x - 2, prev_y - thickness, x, y - thickness, self.color)
             
             prev_y = y
 
@@ -135,21 +136,28 @@ class Oscilloscope:
     def __init__(self):
         pyxel.init(512, 512, title="Oscilloscope")
         
-        # Sound design - electronic, digital, scanning
-        pyxel.sounds[0].set("c2e2g2", "s", "765", "v", 30)     # Electronic pulse
-        pyxel.sounds[1].set("f1a1", "n", "54", "s", 25)        # Digital noise
-        pyxel.sounds[2].set("g2c3", "t", "432", "f", 20)       # Scanning tone
-        pyxel.sounds[3].set("d2f2", "s", "321", "v", 35)       # Signal sweep
-        pyxel.sounds[4].set("a1d2", "n", "765", "s", 15)       # Static burst (fixed volume)
-        pyxel.sounds[5].set("e2b2", "t", "654", "f", 28)       # Oscillation
+        # Sound design - 3 channel long tone chord construction
+        # Channel 0: Root notes (bass)
+        pyxel.sounds[0].set("e2e2e2e2e2e2e2e2", "t", "44444444", "n", 60)  # Long Em root
+        # Channel 1: Third notes (harmony)  
+        pyxel.sounds[1].set("g2g2g2g2g2g2g2g2", "t", "33333333", "n", 60)  # Long Em third
+        # Channel 2: Fifth notes (top)
+        pyxel.sounds[2].set("b2b2b2b2b2b2b2b2", "t", "22222222", "n", 60)  # Long Em fifth
         
-        # Create multiple wave signals
+        # Create 3 wave signals corresponding to the 3 audio channels
         self.signals = []
-        signal_types = ['sine', 'square', 'sawtooth', 'triangle', 'noise']
+        # Use different waveforms and colors for each chord tone
+        signal_types = ['sine', 'triangle', 'square']  # Root, Third, Fifth
+        signal_colors = [11, 3, 10]  # Bright green, dark green, light green
         
-        for i in range(6):
-            signal_type = signal_types[i % len(signal_types)]
-            self.signals.append(WaveSignal(signal_type))
+        for i in range(3):
+            signal_type = signal_types[i]
+            signal = WaveSignal(signal_type, signal_colors[i])
+            # Set frequencies that correspond to the chord tones
+            signal.frequency = 0.02 + i * 0.01  # Different frequencies for each voice
+            signal.y_offset = 128 + i * 128  # Separate vertical positions
+            signal.amplitude = 80 - i * 10  # Different amplitudes
+            self.signals.append(signal)
         
         # Oscilloscope components
         self.grid = OscilloscopeGrid()
@@ -158,8 +166,64 @@ class Oscilloscope:
         # System state
         self.time = 0
         self.screen_flicker = 0
+        self.chord_index = 0  # Track current chord in progression
+        
+        # Chord progression: Em - C - G - D with corresponding waveform shapes
+        self.chords = [
+            ("e2", "g2", "b2"),  # Em
+            ("c2", "e2", "g2"),  # C
+            ("g2", "b2", "d3"),  # G  
+            ("d2", "f2", "a2")   # D
+        ]
+        
+        # Waveform shape patterns for each chord (Root, Third, Fifth)
+        self.chord_waveforms = [
+            ['sine', 'triangle', 'square'],     # Em - flowing, soft to sharp
+            ['square', 'sine', 'triangle'],     # C - strong, pure, soft
+            ['triangle', 'square', 'sine'],     # G - building, strong, pure
+            ['sawtooth', 'triangle', 'square']  # D - rising, building, strong
+        ]
         
         pyxel.run(self.update, self.draw)
+    
+    def update_chord_sounds(self, chord_notes):
+        """Update the 3 channels with new chord notes for long tone construction"""
+        root, third, fifth = chord_notes
+        
+        # Channel 0: Root (bass) - long sustained tone
+        pyxel.sounds[0].set(f"{root}{root}{root}{root}{root}{root}{root}{root}", "t", "44444444", "n", 60)
+        # Channel 1: Third (harmony) - long sustained tone
+        pyxel.sounds[1].set(f"{third}{third}{third}{third}{third}{third}{third}{third}", "t", "33333333", "n", 60)  
+        # Channel 2: Fifth (top) - long sustained tone
+        pyxel.sounds[2].set(f"{fifth}{fifth}{fifth}{fifth}{fifth}{fifth}{fifth}{fifth}", "t", "22222222", "n", 60)
+        
+        # Update visual frequencies and waveform shapes to match chord tones
+        self.update_visual_frequencies(chord_notes)
+        self.update_waveform_shapes(self.chord_index)
+    
+    def update_visual_frequencies(self, chord_notes):
+        """Update visual waveform frequencies to correspond to chord tones"""
+        # Note frequency mapping (approximate relative frequencies)
+        note_freq_map = {
+            'e2': 0.020, 'f2': 0.021, 'g2': 0.024, 'a2': 0.027, 'b2': 0.030,
+            'c2': 0.016, 'd2': 0.018, 'c3': 0.032, 'd3': 0.036
+        }
+        
+        root, third, fifth = chord_notes
+        
+        # Update each signal to match its corresponding chord tone
+        if len(self.signals) >= 3:
+            self.signals[0].frequency = note_freq_map.get(root, 0.020)    # Root
+            self.signals[1].frequency = note_freq_map.get(third, 0.024)   # Third  
+            self.signals[2].frequency = note_freq_map.get(fifth, 0.030)   # Fifth
+    
+    def update_waveform_shapes(self, chord_idx):
+        """Update waveform shapes based on current chord progression"""
+        current_waveforms = self.chord_waveforms[chord_idx % len(self.chord_waveforms)]
+        
+        # Update each signal's waveform type
+        for i, signal in enumerate(self.signals[:3]):  # Only update first 3 signals
+            signal.signal_type = current_waveforms[i]
     
     def update(self):
         if pyxel.btnp(pyxel.KEY_Q):
@@ -175,28 +239,24 @@ class Oscilloscope:
         # Screen flicker effect
         self.screen_flicker = random.uniform(0.95, 1.0)
         
-        # Sound triggers - electronic and scanning
-        if self.time % 90 == 0 and random.random() < 0.4:
-            pyxel.play(0, 0, loop=False)  # Electronic pulse
+        # Sound triggers - 3 channel long tone chord construction
+        # Change chord every 4 seconds (120 frames) for longer harmonic development
+        if self.time % 120 == 0:
+            current_chord = self.chords[self.chord_index]
+            self.update_chord_sounds(current_chord)
+            self.chord_index = (self.chord_index + 1) % 4  # Cycle through chords
         
-        if self.time % 120 == 60 and random.random() < 0.3:
-            pyxel.play(1, 1, loop=False)  # Digital noise
+        # Start playing all 3 channels together for sustained chord
+        if self.time % 120 == 10:  # Slight delay after chord update
+            pyxel.play(0, 0, loop=True)   # Root - continuous loop
+            pyxel.play(1, 1, loop=True)   # Third - continuous loop  
+            pyxel.play(2, 2, loop=True)   # Fifth - continuous loop
         
-        # Scanning tone
-        if self.time % 150 == 75 and random.random() < 0.35:
-            pyxel.play(2, 2, loop=False)  # Scanning tone
-        
-        # Signal sweep
-        if self.time % 180 == 90 and random.random() < 0.4:
-            pyxel.play(0, 3, loop=False)  # Signal sweep
-        
-        # Static burst
-        if self.time % 200 == 100 and random.random() < 0.25:
-            pyxel.play(1, 4, loop=False)  # Static burst
-        
-        # Oscillation
-        if self.time % 100 == 50 and random.random() < 0.3:
-            pyxel.play(2, 5, loop=False)  # Oscillation
+        # Occasionally stop all channels for breathing space
+        if self.time % 480 == 240:  # Every 16 seconds, pause for 4 seconds
+            pyxel.stop(0)
+            pyxel.stop(1) 
+            pyxel.stop(2)
         
         self.time += 1
     
@@ -207,11 +267,10 @@ class Oscilloscope:
         # Draw grid first
         self.grid.draw()
         
-        # Draw all waveform signals
+        # Draw all 3 waveform signals simultaneously (synced to chord tones)
         for i, signal in enumerate(self.signals):
-            # Alternate between different signal displays
-            if self.time % 300 < 50 * (i + 1):  # Show different signals over time
-                signal.draw(self.time)
+            # Always draw all signals to visualize the 3-part harmony
+            signal.draw(self.time)
         
         # Draw scan line
         self.scan_line.draw()
