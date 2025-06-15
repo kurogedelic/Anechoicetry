@@ -16,35 +16,35 @@ yet nothing begins.
 
 **Published Works (28/30):**
 
-1. **Urban Growth** - #Anechoicetry 1/30 ✅ Published
-2. **Planets of Reflection** - #Anechoicetry 2/30 ✅ Published
-3. **Quiet Point and Line** - #Anechoicetry 3/30 ✅ Published
-4. **Grid of Colour** - #Anechoicetry 4/30 ✅ Published
-5. **Data Duplex** - #Anechoicetry 5/30 ✅ Published
-6. **Worm Trace** - #Anechoicetry 6/30 ✅ Published
-7. **Scan** - #Anechoicetry 7/30 ✅ Published
-8. **Breath of the Form** - #Anechoicetry 8/30 ✅ Published
-9. **Phantom Arcade** - #Anechoicetry 9/30 ✅ Published
-10. **Comet Dust** - #Anechoicetry 10/30 ✅ Published
-11. **Barcodes** - #Anechoicetry 11/30 ✅ Published
-12. **Screen Damage** - #Anechoicetry 12/30 ✅ Published
-13. **Pulse of Dusk** - #Anechoicetry 13/30 ✅ Published
-14. **Shore** - #Anechoicetry 14/30 ✅ Published
-15. **Crows Play** - #Anechoicetry 15/30 ✅ Published
-16. **Echo Chamber** - #Anechoicetry 16/30 ✅ Published
-17. **Digital Rain** - #Anechoicetry 17/30 ✅ Published
-18. **Pendulum Garden** - #Anechoicetry 18/30 ✅ Published
-19. **Paper Birds** - #Anechoicetry 19/30 ✅ Published
-20. **Visuals** - #Anechoicetry 20/30 ✅ Published (Tribute to Nam June Paik)
-21. **Supremus** - #Anechoicetry 21/30 ✅ Published (Tribute to Kazimir Malevich)
-22. **Proun** - #Anechoicetry 22/30 ✅ Published (Tribute to El Lissitzky)
-23. **Diatomea Computer** - #Anechoicetry 23/30 ✅ Published
-24. **Aurora Borealis** - #Anechoicetry 24/30 ✅ Published
-25. **Oscilloscope** - #Anechoicetry 25/30 ✅ Published
+1. **Urban Growth** - #Anechoicetry 1/30 ✅ Published → [Play](docs/urban_growth.html)
+2. **Planets of Reflection** - #Anechoicetry 2/30 ✅ Published → [Play](docs/planets_of_reflection.html)
+3. **Quiet Point and Line** - #Anechoicetry 3/30 ✅ Published → [Play](docs/quiet_point_line.html)
+4. **Grid of Colour** - #Anechoicetry 4/30 ✅ Published → [Play](docs/grid_of_colour.html)
+5. **Data Duplex** - #Anechoicetry 5/30 ✅ Published → [Play](docs/data_duplex.html)
+6. **Worm Trace** - #Anechoicetry 6/30 ✅ Published → [Play](docs/worm_trace.html)
+7. **Scan** - #Anechoicetry 7/30 ✅ Published → [Play](docs/scan.html)
+8. **Breath of the Form** - #Anechoicetry 8/30 ✅ Published → [Play](docs/breath_of_form.html)
+9. **Phantom Arcade** - #Anechoicetry 9/30 ✅ Published → [Play](docs/phantom_arcade.html)
+10. **Comet Dust** - #Anechoicetry 10/30 ✅ Published → [Play](docs/comet_dust.html)
+11. **Barcodes** - #Anechoicetry 11/30 ✅ Published → [Play](docs/barcodes.html)
+12. **Screen Damage** - #Anechoicetry 12/30 ✅ Published → [Play](docs/screen_damage.html)
+13. **Pulse of Dusk** - #Anechoicetry 13/30 ✅ Published → [Play](docs/pulse_of_dusk.html)
+14. **Shore** - #Anechoicetry 14/30 ✅ Published → [Play](docs/shore.html)
+15. **Crows Play** - #Anechoicetry 15/30 ✅ Published → [Play](docs/crows_play.html)
+16. **Echo Chamber** - #Anechoicetry 16/30 ✅ Published → [Play](docs/echo_chamber.html)
+17. **Digital Rain** - #Anechoicetry 17/30 ✅ Published → [Play](docs/digital_rain.html)
+18. **Pendulum Garden** - #Anechoicetry 18/30 ✅ Published → [Play](docs/pendulum_garden.html)
+19. **Paper Birds** - #Anechoicetry 19/30 ✅ Published → [Play](docs/paper_birds.html)
+20. **Visuals** - #Anechoicetry 20/30 ✅ Published → [Play](docs/visuals.html) (Tribute to Nam June Paik)
+21. **Supremus** - #Anechoicetry 21/30 ✅ Published → [Play](docs/supremus.html) (Tribute to Kazimir Malevich)
+22. **Proun** - #Anechoicetry 22/30 ✅ Published → [Play](docs/proun.html) (Tribute to El Lissitzky)
+23. **Diatomea Computer** - #Anechoicetry 23/30 ✅ Published → [Play](docs/diatomea_computer.html)
+24. **Aurora Borealis** - #Anechoicetry 24/30 ✅ Published → [Play](docs/aurora_borealis.html)
+25. **Oscilloscope** - #Anechoicetry 25/30 ✅ Published → [Play](docs/oscilloscope.html)
 26. **Memory Palace** - #Anechoicetry 26/30 📋 Planned
-27. **Signal Static** - #Anechoicetry 27/30 ✅ Published
-28. **Floating in the Sky** - #Anechoicetry 28/30 ✅ Published (Tribute to René Magritte)
-29. **Fermata** - #Anechoicetry 29/30 ✅ Published (Tribute to Paul Klee)
+27. **Signal Static** - #Anechoicetry 27/30 ✅ Published → [Play](docs/signal_static.html)
+28. **Floating in the Sky** - #Anechoicetry 28/30 ✅ Published → [Play](docs/floating_in_the_sky.html) (Tribute to René Magritte)
+29. **Fermata** - #Anechoicetry 29/30 ✅ Published → [Play](docs/fermata.html) (Tribute to Paul Klee)
 30. **[Final Piece]** - #Anechoicetry 30/30 📋 Planned
 
 **Collection Status:**
