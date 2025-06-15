@@ -39,8 +39,8 @@ yet nothing begins.
 21. **Supremus** - #Anechoicetry 21/30 ✅ Published → [Play](docs/supremus.html) (Tribute to Kazimir Malevich)
 22. **Proun** - #Anechoicetry 22/30 ✅ Published → [Play](docs/proun.html) (Tribute to El Lissitzky)
 23. **Diatomea Computer** - #Anechoicetry 23/30 ✅ Published → [Play](docs/diatomea_computer.html)
-24. **Aurora Borealis** - #Anechoicetry 24/30 ✅ Published → [Play](docs/aurora_borealis.html)
-25. **Oscilloscope** - #Anechoicetry 25/30 ✅ Published → [Play](docs/oscilloscope.html)
+24. **Oscilloscope** - #Anechoicetry 24/30 ✅ Published → [Play](docs/oscilloscope.html)
+25. **Aurora Borealis** - #Anechoicetry 25/30 ✅ Published → [Play](docs/aurora_borealis.html)
 26. **Memory Palace** - #Anechoicetry 26/30 📋 Planned
 27. **Signal Static** - #Anechoicetry 27/30 ✅ Published → [Play](docs/signal_static.html)
 28. **Floating in the Sky** - #Anechoicetry 28/30 ✅ Published → [Play](docs/floating_in_the_sky.html) (Tribute to René Magritte)
