@@ -1,5 +1,5 @@
 """
-Aurora Borealis - Anechoicetry Collection
+Aurora Spiral - Anechoicetry Collection
 by Leo Kuroshita
 Flowing curtains of light with drone harmonics and atmospheric resonance
 Site: https://kurogedelic.com
@@ -133,15 +133,15 @@ class DroneGenerator:
 
 class AuroraBorealis:
     def __init__(self):
-        pyxel.init(512, 512, title="Aurora Borealis")
+        pyxel.init(512, 512, title="Aurora Spiral")
         
-        # Sound design - pure drone noise
-        pyxel.sounds[0].set("c1", "n", "7654", "f", 50)         # Deep drone noise
-        pyxel.sounds[1].set("f1", "n", "543", "v", 45)          # Low frequency drone
-        pyxel.sounds[2].set("g1", "n", "432", "s", 40)          # Mid frequency drone
-        pyxel.sounds[3].set("e1", "n", "321", "f", 35)          # High frequency drone
-        pyxel.sounds[4].set("a1", "n", "654", "v", 55)          # Magnetic field drone
-        pyxel.sounds[5].set("c1", "n", "765", "s", 30)          # Ultra-low drone
+        # Sound design - triangle wave drones (reduced volume to prevent clipping)
+        pyxel.sounds[0].set("c1", "t", "3321", "f", 50)         # Deep triangle drone
+        pyxel.sounds[1].set("f1", "t", "321", "v", 45)          # Low frequency triangle
+        pyxel.sounds[2].set("g1", "t", "221", "s", 40)          # Mid frequency triangle
+        pyxel.sounds[3].set("e1", "t", "211", "f", 35)          # High frequency triangle
+        pyxel.sounds[4].set("a1", "t", "332", "v", 55)          # Magnetic field triangle
+        pyxel.sounds[5].set("c1", "t", "433", "s", 30)          # Ultra-low triangle
         
         # Create aurora curtains
         self.curtains = []

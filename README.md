@@ -40,7 +40,7 @@ yet nothing begins.
 22. [**Proun**](https://kurogedelic.github.io/Anechoicetry/proun.html) - #Anechoicetry 22/30 ✅ Published (Tribute to El Lissitzky)
 23. [**Diatomea Computer**](https://kurogedelic.github.io/Anechoicetry/diatomea_computer.html) - #Anechoicetry 23/30 ✅ Published
 24. [**Oscilloscope**](https://kurogedelic.github.io/Anechoicetry/oscilloscope.html) - #Anechoicetry 24/30 ✅ Published
-25. [**Aurora Borealis**](https://kurogedelic.github.io/Anechoicetry/aurora_borealis.html) - #Anechoicetry 25/30 ✅ Published
+25. [**Aurora Spiral**](https://kurogedelic.github.io/Anechoicetry/aurora_spiral.html) - #Anechoicetry 25/30 ✅ Published
 26. **Memory Palace** - #Anechoicetry 26/30 📋 Planned
 27. [**Signal Static**](https://kurogedelic.github.io/Anechoicetry/signal_static.html) - #Anechoicetry 27/30 ✅ Published
 28. [**Floating in the Sky**](https://kurogedelic.github.io/Anechoicetry/floating_in_the_sky.html) - #Anechoicetry 28/30 ✅ Published (Tribute to René Magritte)
