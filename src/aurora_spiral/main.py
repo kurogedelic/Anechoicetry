@@ -135,13 +135,11 @@ class AuroraBorealis:
     def __init__(self):
         pyxel.init(512, 512, title="Aurora Spiral")
         
-        # Sound design - triangle wave drones (reduced volume to prevent clipping)
-        pyxel.sounds[0].set("c1", "t", "3321", "f", 50)         # Deep triangle drone
-        pyxel.sounds[1].set("f1", "t", "321", "v", 45)          # Low frequency triangle
-        pyxel.sounds[2].set("g1", "t", "221", "s", 40)          # Mid frequency triangle
-        pyxel.sounds[3].set("e1", "t", "211", "f", 35)          # High frequency triangle
-        pyxel.sounds[4].set("a1", "t", "332", "v", 55)          # Magnetic field triangle
-        pyxel.sounds[5].set("c1", "t", "433", "s", 30)          # Ultra-low triangle
+        # Sound design - simple high-pitched sequence
+        pyxel.sounds[0].set("c4", "t", "2", "n", 20)            # High C
+        pyxel.sounds[1].set("e4", "t", "2", "n", 20)            # High E
+        pyxel.sounds[2].set("g4", "t", "2", "n", 20)            # High G
+        pyxel.sounds[3].set("f4", "t", "2", "n", 20)            # High F
         
         # Create aurora curtains
         self.curtains = []
@@ -189,29 +187,18 @@ class AuroraBorealis:
         self.drone_generator.update(self.aurora_intensity)
         
         # Sound triggers - pure drone noise
-        # Deep drone - continuous
-        if self.time % 200 == 0:
-            pyxel.play(0, 0, loop=False)  # Deep drone
+        # Simple high-pitched sequence - C E G F pattern
+        sequence_step = (self.time // 60) % 4  # Change every 2 seconds
         
-        # Low frequency drone
-        if self.time % 250 == 125 and self.aurora_intensity > 0.6:
-            pyxel.play(1, 1, loop=False)  # Low frequency drone
-        
-        # Mid frequency drone
-        if self.time % 300 == 150:
-            pyxel.play(2, 2, loop=False)  # Mid frequency drone
-        
-        # High frequency drone - rare
-        if self.time % 450 == 225 and random.random() < self.aurora_intensity * 0.4:
-            pyxel.play(1, 3, loop=False)  # High frequency drone
-        
-        # Magnetic field drone - correlate with activity
-        if self.time % 180 == 90 and random.random() < self.magnetic_activity:
-            pyxel.play(0, 4, loop=False)  # Magnetic field drone
-        
-        # Ultra-low drone - very rare
-        if self.time % 500 == 250 and random.random() < 0.25:
-            pyxel.play(2, 5, loop=False)  # Ultra-low drone
+        if self.time % 60 == 0:  # Play every 2 seconds
+            if sequence_step == 0:
+                pyxel.play(0, 0, loop=False)  # C4
+            elif sequence_step == 1:
+                pyxel.play(1, 1, loop=False)  # E4
+            elif sequence_step == 2:
+                pyxel.play(2, 2, loop=False)  # G4
+            elif sequence_step == 3:
+                pyxel.play(3, 3, loop=False)  # F4
         
         self.time += 1
     
