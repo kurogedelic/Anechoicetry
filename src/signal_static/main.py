@@ -189,12 +189,12 @@ class SignalStatic:
         pyxel.init(512, 512, title="Signal Static")
         
         # Sound design - continuous white noise drone with high sine waves
-        pyxel.sounds[0].set("c1", "n", "7", "n", 60)          # Continuous white noise drone
-        pyxel.sounds[1].set("c6", "s", "6543", "v", 20)       # High sine fade in
+        pyxel.sounds[0].set("c1", "n", "2", "n", 60)          # Continuous white noise drone
+        pyxel.sounds[1].set("c6", "s", "5432", "v", 20)       # High sine fade in
         pyxel.sounds[2].set("d6", "s", "4321", "v", 18)       # High sine variation
         pyxel.sounds[3].set("e6", "s", "5432", "v", 22)       # High sine peak
         pyxel.sounds[4].set("f6", "s", "321", "v", 15)        # High sine fade out
-        pyxel.sounds[5].set("g6", "s", "765", "v", 25)        # High sine impact
+        pyxel.sounds[5].set("g6", "s", "543", "v", 25)        # High sine impact
         
         # Static field
         self.static_pixels = []
