@@ -188,13 +188,13 @@ class SignalStatic:
     def __init__(self):
         pyxel.init(512, 512, title="Signal Static")
         
-        # Sound design - TV/electronic interference
-        pyxel.sounds[0].set("g1", "n", "7654321", "f", 25)    # Static noise
-        pyxel.sounds[1].set("c2e2", "n", "543", "v", 20)      # Signal interference
-        pyxel.sounds[2].set("f2", "s", "76543", "f", 18)      # Channel tuning
-        pyxel.sounds[3].set("a1d2", "n", "432", "v", 15)      # Signal lock
-        pyxel.sounds[4].set("g2b2", "p", "321", "f", 22)      # Signal found
-        pyxel.sounds[5].set("c1", "n", "765", "f", 30)        # Deep static
+        # Sound design - continuous white noise drone with high sine waves
+        pyxel.sounds[0].set("c1", "n", "7", "n", 60)          # Continuous white noise drone
+        pyxel.sounds[1].set("c6", "s", "6543", "v", 20)       # High sine fade in
+        pyxel.sounds[2].set("d6", "s", "4321", "v", 18)       # High sine variation
+        pyxel.sounds[3].set("e6", "s", "5432", "v", 22)       # High sine peak
+        pyxel.sounds[4].set("f6", "s", "321", "v", 15)        # High sine fade out
+        pyxel.sounds[5].set("g6", "s", "765", "v", 25)        # High sine impact
         
         # Static field
         self.static_pixels = []
@@ -233,13 +233,13 @@ class SignalStatic:
         # Update shapes
         self.shapes = [shape for shape in self.shapes if shape.update()]
         
-        # Spawn new shapes occasionally
+        # Spawn new shapes more frequently
         self.shape_spawn_timer += 1
         if self.shape_spawn_timer >= self.shape_spawn_interval:
-            if len(self.shapes) < 3 and random.random() < 0.7:
+            if len(self.shapes) < 5 and random.random() < 0.8:
                 self.spawn_shape()
             self.shape_spawn_timer = 0
-            self.shape_spawn_interval = random.randint(150, 300)
+            self.shape_spawn_interval = random.randint(60, 120)
         
         # Update interference level
         self.interference_timer += 1
@@ -252,29 +252,16 @@ class SignalStatic:
         if self.scan_line_offset >= 512:
             self.scan_line_offset = 0
         
-        # Sound triggers
-        if self.time % 60 == 0 and random.random() < 0.8:
-            pyxel.play(0, 0, loop=False)  # Static noise
+        # Continuous white noise drone
+        if self.time % 30 == 0:
+            pyxel.play(0, 0, loop=True)  # Continuous drone
         
-        if self.time % 180 == 0 and random.random() < 0.4:
-            pyxel.play(1, 5, loop=False)  # Deep static
-        
-        # Signal interference
-        if self.time % 90 == 45 and random.random() < 0.3:
-            pyxel.play(1, 1, loop=False)  # Signal interference
-        
-        # Shape appearance sounds
-        if len(self.shapes) > 0 and self.time % 120 == 60 and random.random() < 0.5:
-            pyxel.play(2, 3, loop=False)  # Signal lock
-        
-        # Channel tuning
-        if self.interference_level > 0.6 and self.time % 150 == 75 and random.random() < 0.4:
-            pyxel.play(2, 2, loop=False)  # Channel tuning
-        
-        # Signal found
+        # High sine waves when shapes appear
         for shape in self.shapes:
-            if shape.visibility > 0.7 and random.random() < 0.02:
-                pyxel.play(1, 4, loop=False)  # Signal found
+            if shape.life_timer == 1:  # Shape just appeared
+                pyxel.play(1, random.choice([1, 2, 3]), loop=False)  # High sine fade in
+            elif shape.visibility > 0.6 and random.random() < 0.03:
+                pyxel.play(2, random.choice([4, 5]), loop=False)  # High sine flying sounds
         
         self.time += 1
     

@@ -41,11 +41,11 @@ yet nothing begins.
 23. [**Diatomea Computer**](https://kurogedelic.github.io/Anechoicetry/diatomea_computer.html) - #Anechoicetry 23/30 ✅ Published
 24. [**Oscilloscope**](https://kurogedelic.github.io/Anechoicetry/oscilloscope.html) - #Anechoicetry 24/30 ✅ Published
 25. [**Aurora Spiral**](https://kurogedelic.github.io/Anechoicetry/aurora_spiral.html) - #Anechoicetry 25/30 ✅ Published
-26. **Memory Palace** - #Anechoicetry 26/30 📋 Planned
-27. [**Signal Static**](https://kurogedelic.github.io/Anechoicetry/signal_static.html) - #Anechoicetry 27/30 ✅ Published
-28. [**Floating in the Sky**](https://kurogedelic.github.io/Anechoicetry/floating_in_the_sky.html) - #Anechoicetry 28/30 ✅ Published (Tribute to René Magritte)
-29. [**Fermata**](https://kurogedelic.github.io/Anechoicetry/fermata.html) - #Anechoicetry 29/30 ✅ Published (Tribute to Paul Klee)
-30. **[Final Piece]** - #Anechoicetry 30/30 📋 Planned
+26. [**Signal Static**](https://kurogedelic.github.io/Anechoicetry/signal_static.html) - #Anechoicetry 26/30 ✅ Published
+27. [**Floating in the Sky**](https://kurogedelic.github.io/Anechoicetry/floating_in_the_sky.html) - #Anechoicetry 27/30 ✅ Published (Tribute to René Magritte)
+28. **Memory Palace** - #Anechoicetry 28/30 📋 Planned
+29. **[Untitled]** - #Anechoicetry 29/30 📋 Planned
+30. [**Fermata**](https://kurogedelic.github.io/Anechoicetry/fermata.html) - #Anechoicetry 30/30 ✅ Published (Tribute to Paul Klee)
 
 **Collection Status:**
 
