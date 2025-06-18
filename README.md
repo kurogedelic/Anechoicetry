@@ -14,7 +14,7 @@ yet nothing begins.
 
 ## Collection Catalog
 
-**Published Works (28/30):**
+**Published Works (30/30):**
 
 1. [**Urban Growth**](https://kurogedelic.github.io/Anechoicetry/urban_growth.html) - #Anechoicetry 1/30 ✅ Published
 2. [**Planets of Reflection**](https://kurogedelic.github.io/Anechoicetry/planets_of_reflection.html) - #Anechoicetry 2/30 ✅ Published (Tribute to Oskar Fischinger)
@@ -42,17 +42,19 @@ yet nothing begins.
 24. [**Oscilloscope**](https://kurogedelic.github.io/Anechoicetry/oscilloscope.html) - #Anechoicetry 24/30 ✅ Published
 25. [**Aurora Spiral**](https://kurogedelic.github.io/Anechoicetry/aurora_spiral.html) - #Anechoicetry 25/30 ✅ Published
 26. [**Signal Static**](https://kurogedelic.github.io/Anechoicetry/signal_static.html) - #Anechoicetry 26/30 ✅ Published
-27. [**Floating in the Sky**](https://kurogedelic.github.io/Anechoicetry/floating_in_the_sky.html) - #Anechoicetry 27/30 ✅ Published (Tribute to René Magritte)
-28. **Memory Palace** - #Anechoicetry 28/30 📋 Planned
-29. **[Untitled]** - #Anechoicetry 29/30 📋 Planned
+27. [**The Empire of Glow**](https://kurogedelic.github.io/Anechoicetry/empire_of_glow.html) - #Anechoicetry 27/30 ✅ Published
+28. [**Terrain Cry**](https://kurogedelic.github.io/Anechoicetry/terrain_cry.html) - #Anechoicetry 28/30 ✅ Published
+29. [**Floating in the Sky**](https://kurogedelic.github.io/Anechoicetry/floating_in_the_sky.html) - #Anechoicetry 29/30 ✅ Published (Tribute to René Magritte)
 30. [**Fermata**](https://kurogedelic.github.io/Anechoicetry/fermata.html) - #Anechoicetry 30/30 ✅ Published (Tribute to Paul Klee)
 
 **Collection Status:**
 
-- Total Sketches: 29/30
-- Published: 28/30 (93%)
+- Total Sketches: 30/30
+- Published: 30/30 (100%)
 - In Development: 0/30 (0%)
-- Remaining to Create: 2/30 (7%)
+- Remaining to Create: 0/30 (0%)
+
+**🎉 COLLECTION COMPLETE! 🎉**
 
 ---
 
