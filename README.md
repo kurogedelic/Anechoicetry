@@ -42,8 +42,8 @@ yet nothing begins.
 24. [**Oscilloscope**](https://kurogedelic.github.io/Anechoicetry/oscilloscope.html) - #Anechoicetry 24/30 ✅ Published
 25. [**Aurora Spiral**](https://kurogedelic.github.io/Anechoicetry/aurora_spiral.html) - #Anechoicetry 25/30 ✅ Published
 26. [**Signal Static**](https://kurogedelic.github.io/Anechoicetry/signal_static.html) - #Anechoicetry 26/30 ✅ Published
-27. [**The Empire of Glow**](https://kurogedelic.github.io/Anechoicetry/empire_of_glow.html) - #Anechoicetry 27/30 ✅ Published
-28. [**Terrain Cry**](https://kurogedelic.github.io/Anechoicetry/terrain_cry.html) - #Anechoicetry 28/30 ✅ Published
+27. [**Terrain Cry**](https://kurogedelic.github.io/Anechoicetry/terrain_cry.html) - #Anechoicetry 27/30 ✅ Published
+28. [**The Empire of Glow**](https://kurogedelic.github.io/Anechoicetry/empire_of_glow.html) - #Anechoicetry 28/30 ✅ Published
 29. [**Floating in the Sky**](https://kurogedelic.github.io/Anechoicetry/floating_in_the_sky.html) - #Anechoicetry 29/30 ✅ Published (Tribute to René Magritte)
 30. [**Fermata**](https://kurogedelic.github.io/Anechoicetry/fermata.html) - #Anechoicetry 30/30 ✅ Published (Tribute to Paul Klee)
 
