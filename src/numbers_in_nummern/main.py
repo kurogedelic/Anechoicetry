@@ -1,5 +1,5 @@
 """
-Floating in the Sky - Anechoicetry Collection
+Numbers in Nummern - Anechoicetry Collection
 by Leo Kuroshita
 Tribute to Kraftwerk: digital matrix display with evolving number patterns
 Site: https://kurogedelic.com
@@ -13,7 +13,7 @@ import math
 
 class KraftwerkMatrix:
     def __init__(self):
-        pyxel.init(512, 512, title="Floating in the Sky - Tribute to Kraftwerk")
+        pyxel.init(512, 512, title="Numbers in Nummern - Tribute to Kraftwerk")
         
         # Sound design - electronic ambient soundscape
         pyxel.sounds[0].set("c2", "n", "4", "n", 120)     # Deep electronic pulse

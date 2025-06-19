@@ -16,7 +16,7 @@ yet nothing begins.
 
 **Published Works (30/30):**
 
-1. [**Urban Growth**](https://kurogedelic.github.io/Anechoicetry/urban_growth.html) - #Anechoicetry 1/30 ✅ Published
+1. [**Urban Growth**](https://kurogedelic.github.io/Anechoicetry/urban_growth.html) - #Anechoicetry 1/30 ✅ Published (Tribute to Will Wright)
 2. [**Planets of Reflection**](https://kurogedelic.github.io/Anechoicetry/planets_of_reflection.html) - #Anechoicetry 2/30 ✅ Published (Tribute to Oskar Fischinger)
 3. [**Quiet Point and Line**](https://kurogedelic.github.io/Anechoicetry/quiet_point_line.html) - #Anechoicetry 3/30 ✅ Published
 4. [**Grid of Colour**](https://kurogedelic.github.io/Anechoicetry/grid_of_colour.html) - #Anechoicetry 4/30 ✅ Published
@@ -44,7 +44,7 @@ yet nothing begins.
 26. [**Signal Static**](https://kurogedelic.github.io/Anechoicetry/signal_static.html) - #Anechoicetry 26/30 ✅ Published
 27. [**Terrain Cry**](https://kurogedelic.github.io/Anechoicetry/terrain_cry.html) - #Anechoicetry 27/30 ✅ Published
 28. [**The Empire of Glow**](https://kurogedelic.github.io/Anechoicetry/empire_of_glow.html) - #Anechoicetry 28/30 ✅ Published (Tribute to René Magritte)
-29. [**Numbers in Nummern**](https://kurogedelic.github.io/Anechoicetry/floating_in_the_sky.html) - #Anechoicetry 29/30 ✅ Published (Tribute to Kraftwerk)
+29. [**Numbers in Nummern**](https://kurogedelic.github.io/Anechoicetry/numbers_in_nummern.html) - #Anechoicetry 29/30 ✅ Published (Tribute to Kraftwerk)
 30. [**Fermata**](https://kurogedelic.github.io/Anechoicetry/fermata.html) - #Anechoicetry 30/30 ✅ Published (Tribute to Paul Klee)
 
 **Collection Status:**
