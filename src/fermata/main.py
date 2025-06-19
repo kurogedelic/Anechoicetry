@@ -16,15 +16,23 @@ class PastelTile:
         self.x = x
         self.y = y
         self.size = size
-        # Rich pastel palette
-        self.color = random.choice([10, 11, 14, 15, 6, 7, 4])  # Yellow, green, pink, peach, light gray, white, tan
+        # Thinner, more delicate pastel palette
+        self.colors = [6, 7, 15, 14, 10, 11, 5]  # Light gray, white, peach, pink, yellow, green, dark gray
+        self.color = random.choice(self.colors)
         self.base_color = self.color
+        self.target_color = self.color
         
         # Tile properties
         self.brightness_phase = random.uniform(0, math.pi * 2)
         self.brightness_speed = random.uniform(0.01, 0.03)
         self.pattern_type = random.choice(['solid', 'striped', 'dotted', 'cross'])
         self.pattern_phase = random.uniform(0, math.pi * 2)
+        
+        # Color swapping properties
+        self.color_swap_timer = random.randint(120, 300)
+        self.fade_progress = 0.0
+        self.fade_speed = 0.02
+        self.is_fading = False
         
     def update(self, time):
         # Gentle brightness oscillation
@@ -34,15 +42,45 @@ class PastelTile:
         # Subtle pattern animation
         self.pattern_phase += 0.02
         
+        # Color swapping and fading
+        self.color_swap_timer -= 1
+        if self.color_swap_timer <= 0 and not self.is_fading:
+            # Start fade to new color
+            self.target_color = random.choice([c for c in self.colors if c != self.color])
+            self.is_fading = True
+            self.fade_progress = 0.0
+            self.color_swap_timer = random.randint(180, 400)
+        
+        # Handle cross-fade between colors
+        if self.is_fading:
+            self.fade_progress += self.fade_speed
+            if self.fade_progress >= 1.0:
+                self.color = self.target_color
+                self.is_fading = False
+                self.fade_progress = 0.0
+        
     def draw(self):
         x, y = int(self.x), int(self.y)
         size = int(self.size)
         
-        # Draw base tile
+        # Draw base tile with cross-fade effect
         if 0 <= x < 512 and 0 <= y < 512:
-            pyxel.rect(x, y, min(size, 512-x), min(size, 512-y), self.color)
+            if self.is_fading:
+                # Cross-fade between colors using dithering pattern
+                fade_threshold = self.fade_progress
+                for dy in range(min(size, 512-y)):
+                    for dx in range(min(size, 512-x)):
+                        px, py = x + dx, y + dy
+                        # Create dithering pattern for smooth fade
+                        dither_value = ((px + py) % 4) / 4.0
+                        if dither_value < fade_threshold:
+                            pyxel.pset(px, py, self.target_color)
+                        else:
+                            pyxel.pset(px, py, self.color)
+            else:
+                pyxel.rect(x, y, min(size, 512-x), min(size, 512-y), self.color)
             
-            # Add pattern details
+            # Add thinner pattern details
             if self.pattern_type == 'striped':
                 self.draw_stripes(x, y, size)
             elif self.pattern_type == 'dotted':
@@ -94,9 +132,17 @@ class PaleCurve:
         self.amplitude_x = random.uniform(10, 30)
         self.amplitude_y = random.uniform(15, 40)
         
-        # Pale colors for curves
-        self.color = random.choice([6, 7, 5, 13])  # Light gray, white, dark gray, lavender
-        self.thickness = random.randint(1, 3)
+        # Thinner, more ethereal colors for curves
+        self.curve_colors = [6, 7, 5, 13, 15, 14]  # Light gray, white, dark gray, lavender, peach, pink
+        self.color = random.choice(self.curve_colors)
+        self.target_color = self.color
+        self.thickness = random.randint(1, 2)  # Thinner curves
+        
+        # Curve color fading
+        self.color_fade_timer = random.randint(180, 360)
+        self.curve_fade_progress = 0.0
+        self.curve_fade_speed = 0.015
+        self.curve_is_fading = False
         
         # Dancing properties
         self.dance_phase_x = random.uniform(0, math.pi * 2)
@@ -111,6 +157,23 @@ class PaleCurve:
         
         # Update curve movement
         self.phase += self.speed
+        
+        # Color fading for curves
+        self.color_fade_timer -= 1
+        if self.color_fade_timer <= 0 and not self.curve_is_fading:
+            # Start fade to new color
+            self.target_color = random.choice([c for c in self.curve_colors if c != self.color])
+            self.curve_is_fading = True
+            self.curve_fade_progress = 0.0
+            self.color_fade_timer = random.randint(240, 480)
+        
+        # Handle curve color cross-fade
+        if self.curve_is_fading:
+            self.curve_fade_progress += self.curve_fade_speed
+            if self.curve_fade_progress >= 1.0:
+                self.color = self.target_color
+                self.curve_is_fading = False
+                self.curve_fade_progress = 0.0
         
         # Apply dancing movement to each point
         for i, point in enumerate(self.points):
@@ -132,18 +195,62 @@ class PaleCurve:
             point[1] = base_y + wave_y + dance_y
     
     def draw(self):
-        # Draw smooth curve through points
+        # Draw smooth curve through points with color fading
         for i in range(len(self.points) - 1):
             x1, y1 = int(self.points[i][0]), int(self.points[i][1])
             x2, y2 = int(self.points[i + 1][0]), int(self.points[i + 1][1])
             
-            # Draw curve segment with thickness
+            # Draw curve segment with thickness and cross-fade
             if (0 <= x1 < 512 and 0 <= y1 < 512 and 
                 0 <= x2 < 512 and 0 <= y2 < 512):
-                for thickness in range(self.thickness):
-                    pyxel.line(x1, y1 + thickness, x2, y2 + thickness, self.color)
-                    if thickness > 0:
-                        pyxel.line(x1, y1 - thickness, x2, y2 - thickness, self.color)
+                
+                if self.curve_is_fading:
+                    # Cross-fade using alternating pixels
+                    fade_threshold = self.curve_fade_progress
+                    for thickness in range(self.thickness):
+                        # Draw line with alternating colors based on fade progress
+                        self.draw_fading_line(x1, y1 + thickness, x2, y2 + thickness, fade_threshold)
+                        if thickness > 0:
+                            self.draw_fading_line(x1, y1 - thickness, x2, y2 - thickness, fade_threshold)
+                else:
+                    for thickness in range(self.thickness):
+                        pyxel.line(x1, y1 + thickness, x2, y2 + thickness, self.color)
+                        if thickness > 0:
+                            pyxel.line(x1, y1 - thickness, x2, y2 - thickness, self.color)
+    
+    def draw_fading_line(self, x1, y1, x2, y2, fade_threshold):
+        """Draw a line with cross-fade between two colors"""
+        # Simple line drawing with color interpolation
+        dx = abs(x2 - x1)
+        dy = abs(y2 - y1)
+        sx = 1 if x1 < x2 else -1
+        sy = 1 if y1 < y2 else -1
+        err = dx - dy
+        
+        x, y = x1, y1
+        pixel_count = 0
+        
+        while True:
+            if 0 <= x < 512 and 0 <= y < 512:
+                # Alternate between colors based on position and fade progress
+                dither_pattern = (x + y + pixel_count) % 3
+                if dither_pattern / 3.0 < fade_threshold:
+                    pyxel.pset(x, y, self.target_color)
+                else:
+                    pyxel.pset(x, y, self.color)
+            
+            if x == x2 and y == y2:
+                break
+            
+            e2 = 2 * err
+            if e2 > -dy:
+                err -= dy
+                x += sx
+            if e2 < dx:
+                err += dx
+                y += sy
+            
+            pixel_count += 1
 
 class Fermata:
     def __init__(self):
@@ -229,14 +336,27 @@ class Fermata:
         for tile in self.tiles:
             tile.draw()
         
-        # Add subtle texture overlay
-        if self.time % 3 == 0:  # Every few frames
-            for _ in range(20):
-                if random.random() < 0.1:
+        # Add animated background texture with thin colors
+        if self.time % 2 == 0:  # More frequent animation
+            for _ in range(30):  # More particles
+                if random.random() < 0.15:
                     tx = random.randint(0, 511)
                     ty = random.randint(0, 511)
-                    texture_color = random.choice([6, 7, 15])  # Light colors
+                    # Animate texture colors based on time
+                    time_phase = (self.time * 0.01) % (math.pi * 2)
+                    texture_colors = [6, 7, 15, 14, 5]
+                    color_index = int((math.sin(time_phase + tx * 0.01) + 1) * 2.5) % len(texture_colors)
+                    texture_color = texture_colors[color_index]
                     pyxel.pset(tx, ty, texture_color)
+        
+        # Add flowing background waves
+        wave_phase = self.time * 0.005
+        for i in range(0, 512, 8):
+            wave_y = int(256 + 50 * math.sin(wave_phase + i * 0.02))
+            if 0 <= wave_y < 512:
+                wave_color = 5 if (i // 8) % 2 == 0 else 6
+                if random.random() < 0.3:
+                    pyxel.pset(i, wave_y, wave_color)
         
         # Draw dancing pale curves on top
         for curve in self.curves:
