@@ -1,234 +1,75 @@
 """
 Floating in the Sky - Anechoicetry Collection
 by Leo Kuroshita
-Tribute to René Magritte: surrealist floating clouds and umbrellas in impossible sky
+Tribute to Kraftwerk: digital matrix display with evolving number patterns
 Site: https://kurogedelic.com
 License: CC BY-SA-NC 4.0
-Version: 1.0.0
+Version: 2.0.0
 """
 
 import pyxel
-import math
 import random
+import math
 
-class FloatingElement:
-    def __init__(self, x, y, element_type):
-        self.x = x
-        self.y = y
-        self.base_x = x
-        self.base_y = y
-        self.element_type = element_type  # 'cloud', 'umbrella', 'bowler_hat', 'apple'
-        
-        # Surrealist movement patterns
-        self.float_speed = random.uniform(0.3, 0.8)
-        self.float_amplitude_x = random.uniform(20, 60)
-        self.float_amplitude_y = random.uniform(15, 40)
-        self.float_phase_x = random.uniform(0, math.pi * 2)
-        self.float_phase_y = random.uniform(0, math.pi * 2)
-        
-        # Element properties
-        if element_type == 'cloud':
-            self.size = random.uniform(30, 80)
-            self.color = 7  # White
-            self.secondary_color = 6  # Light gray
-            self.puffiness = random.randint(4, 8)
-        elif element_type == 'umbrella':
-            self.size = random.uniform(40, 70)
-            self.color = 0  # Black (classic Magritte)
-            self.handle_length = self.size * 0.8
-            self.rotation = random.uniform(0, math.pi * 2)
-            self.rotation_speed = random.uniform(-0.02, 0.02)
-        elif element_type == 'bowler_hat':
-            self.size = random.uniform(25, 45)
-            self.color = 0  # Black
-            self.rotation = random.uniform(-0.3, 0.3)
-        elif element_type == 'apple':
-            self.size = random.uniform(15, 25)
-            self.color = 8  # Red (Son of Man reference)
-            self.leaf_color = 11  # Green
-        
-        # Surrealist properties
-        self.gravity_direction = random.choice([-1, 1])  # Some elements float up
-        self.dream_phase = random.uniform(0, math.pi * 2)
-        self.impossibility_factor = random.uniform(0.5, 1.5)
-        
-    def update(self, time):
-        # Dreamlike floating movement
-        self.float_phase_x += self.float_speed * 0.01
-        self.float_phase_y += self.float_speed * 0.008
-        
-        # Magritte-inspired impossible physics
-        self.x = self.base_x + self.float_amplitude_x * math.sin(self.float_phase_x) * self.impossibility_factor
-        self.y = self.base_y + self.float_amplitude_y * math.cos(self.float_phase_y) * self.gravity_direction
-        
-        # Subtle rotation for umbrellas
-        if self.element_type == 'umbrella':
-            self.rotation += self.rotation_speed
-        
-        # Dream phase for surreal effects
-        self.dream_phase += 0.02
-        
-        # Gentle drift
-        self.base_x += math.sin(time * 0.001) * 0.1
-        self.base_y += math.cos(time * 0.0008) * 0.05
-        
-        # Wrap around screen boundaries with surreal logic
-        if self.x < -100:
-            self.x = 612
-        elif self.x > 612:
-            self.x = -100
-        if self.y < -100:
-            self.y = 612
-        elif self.y > 612:
-            self.y = -100
-    
-    def draw(self):
-        x = int(self.x)
-        y = int(self.y)
-        
-        if self.element_type == 'cloud':
-            self.draw_cloud(x, y)
-        elif self.element_type == 'umbrella':
-            self.draw_umbrella(x, y)
-        elif self.element_type == 'bowler_hat':
-            self.draw_bowler_hat(x, y)
-        elif self.element_type == 'apple':
-            self.draw_apple(x, y)
-    
-    def draw_cloud(self, x, y):
-        """Draw a fluffy Magritte-style cloud"""
-        size = int(self.size)
-        
-        # Multiple overlapping circles for cloud puffiness
-        for i in range(self.puffiness):
-            offset_x = random.randint(-size//3, size//3)
-            offset_y = random.randint(-size//4, size//4)
-            radius = random.randint(size//4, size//2)
-            
-            cloud_x = x + offset_x
-            cloud_y = y + offset_y
-            
-            if 0 <= cloud_x < 512 and 0 <= cloud_y < 512:
-                # White center
-                pyxel.circ(cloud_x, cloud_y, radius, self.color)
-                # Gray outline for definition
-                pyxel.circb(cloud_x, cloud_y, radius, self.secondary_color)
-    
-    def draw_umbrella(self, x, y):
-        """Draw a floating umbrella (Magritte motif)"""
-        size = int(self.size)
-        
-        # Umbrella canopy
-        canopy_points = []
-        for i in range(8):
-            angle = (i / 8) * math.pi * 2 + self.rotation
-            ux = x + (size * 0.8) * math.cos(angle)
-            uy = y + (size * 0.3) * math.sin(angle)
-            canopy_points.append((int(ux), int(uy)))
-        
-        # Draw canopy outline
-        for i in range(len(canopy_points)):
-            x1, y1 = canopy_points[i]
-            x2, y2 = canopy_points[(i + 1) % len(canopy_points)]
-            if (0 <= x1 < 512 and 0 <= y1 < 512 and 
-                0 <= x2 < 512 and 0 <= y2 < 512):
-                pyxel.line(x1, y1, x2, y2, self.color)
-        
-        # Umbrella handle
-        handle_x = x
-        handle_y = y + size//2
-        handle_end_y = handle_y + int(self.handle_length)
-        
-        if 0 <= handle_x < 512 and 0 <= handle_y < 512 and 0 <= handle_end_y < 512:
-            pyxel.line(handle_x, handle_y, handle_x, handle_end_y, self.color)
-            # Curved handle end
-            pyxel.line(handle_x, handle_end_y, handle_x + 5, handle_end_y, self.color)
-    
-    def draw_bowler_hat(self, x, y):
-        """Draw a floating bowler hat (Magritte signature)"""
-        size = int(self.size)
-        
-        # Hat crown (ellipse)
-        crown_width = size
-        crown_height = size // 2
-        
-        # Simple ellipse approximation
-        for angle_deg in range(0, 360, 10):
-            angle = math.radians(angle_deg)
-            px = x + (crown_width // 2) * math.cos(angle)
-            py = y + (crown_height // 2) * math.sin(angle) + self.rotation * 10
-            if 0 <= px < 512 and 0 <= py < 512:
-                pyxel.pset(int(px), int(py), self.color)
-        
-        # Hat brim
-        brim_y = y + crown_height // 2
-        brim_width = crown_width + 10
-        
-        if 0 <= brim_y < 512:
-            pyxel.line(max(0, x - brim_width//2), brim_y, 
-                      min(511, x + brim_width//2), brim_y, self.color)
-            # Brim thickness
-            pyxel.line(max(0, x - brim_width//2), brim_y + 1, 
-                      min(511, x + brim_width//2), brim_y + 1, self.color)
-    
-    def draw_apple(self, x, y):
-        """Draw a floating apple (Son of Man reference)"""
-        size = int(self.size)
-        
-        # Apple body
-        if 0 <= x < 512 and 0 <= y < 512:
-            pyxel.circ(x, y, size//2, self.color)
-            
-            # Apple leaf
-            leaf_x = x + size//3
-            leaf_y = y - size//2
-            if 0 <= leaf_x < 512 and 0 <= leaf_y < 512:
-                pyxel.line(leaf_x, leaf_y, leaf_x + 3, leaf_y - 3, self.leaf_color)
-                pyxel.line(leaf_x + 3, leaf_y - 3, leaf_x + 6, leaf_y - 1, self.leaf_color)
-
-class FloatingInTheSky:
+class KraftwerkMatrix:
     def __init__(self):
-        pyxel.init(512, 512, title="Floating in the Sky")
+        pyxel.init(512, 512, title="Floating in the Sky - Tribute to Kraftwerk")
         
-        # Sound design - surreal, dreamlike, atmospheric
-        pyxel.sounds[0].set("c3e3g3", "t", "654", "f", 45)    # Dreamy atmosphere
-        pyxel.sounds[1].set("f2a2c3", "s", "321", "v", 35)    # Floating whisper
-        pyxel.sounds[2].set("g2b2d3", "t", "543", "s", 25)    # Surreal harmony
-        pyxel.sounds[3].set("e3g3", "n", "76", "f", 20)       # Impossible sound
-        pyxel.sounds[4].set("a2d3f3", "s", "432", "v", 40)    # Sky movement
-        pyxel.sounds[5].set("c2f2", "t", "65", "s", 15)       # Distant echo
+        # Sound design - electronic ambient soundscape
+        pyxel.sounds[0].set("c2", "n", "4", "n", 120)     # Deep electronic pulse
+        pyxel.sounds[1].set("g3", "n", "2", "n", 60)      # Mid frequency hum
+        pyxel.sounds[2].set("c4", "p", "1", "v", 30)      # Digital blips
+        pyxel.sounds[3].set("f2", "n", "3", "n", 90)      # Bass drone
+        pyxel.sounds[4].set("d4", "t", "1", "n", 15)      # High frequency pulse
         
-        # Create floating elements in surreal arrangement
-        self.elements = []
+        # Atari 8x8 bitmap font data
+        self.font_data = {
+            '0': [0x3C, 0x66, 0x6E, 0x76, 0x66, 0x66, 0x3C, 0x00],
+            '1': [0x18, 0x38, 0x18, 0x18, 0x18, 0x18, 0x7E, 0x00],
+            '2': [0x3C, 0x66, 0x06, 0x0C, 0x18, 0x30, 0x7E, 0x00],
+            '3': [0x3C, 0x66, 0x06, 0x1C, 0x06, 0x66, 0x3C, 0x00],
+            '4': [0x0C, 0x1C, 0x2C, 0x4C, 0x7E, 0x0C, 0x0C, 0x00],
+            '5': [0x7E, 0x60, 0x7C, 0x06, 0x06, 0x66, 0x3C, 0x00],
+            '6': [0x3C, 0x60, 0x60, 0x7C, 0x66, 0x66, 0x3C, 0x00],
+            '7': [0x7E, 0x06, 0x0C, 0x18, 0x30, 0x30, 0x30, 0x00],
+            '8': [0x3C, 0x66, 0x66, 0x3C, 0x66, 0x66, 0x3C, 0x00],
+            '9': [0x3C, 0x66, 0x66, 0x3E, 0x06, 0x0C, 0x78, 0x00],
+            ' ': [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
+        }
         
-        # Clouds (most prominent)
-        for _ in range(8):
-            x = random.uniform(50, 462)
-            y = random.uniform(50, 462)
-            self.elements.append(FloatingElement(x, y, 'cloud'))
+        # Grid system: 64x64 grid (8x8 pixel cells)
+        self.grid_size = 64
+        self.cell_size = 8
+        self.grid = [[' ' for _ in range(self.grid_size)] for _ in range(self.grid_size)]
+        self.intensity_grid = [[0.0 for _ in range(self.grid_size)] for _ in range(self.grid_size)]
         
-        # Umbrellas (Magritte classic)
-        for _ in range(6):
-            x = random.uniform(80, 432)
-            y = random.uniform(80, 432)
-            self.elements.append(FloatingElement(x, y, 'umbrella'))
+        # Animation cycle (360 frames = 12 seconds at 30fps)
+        self.cycle_length = 360
+        self.frame_counter = 0
         
-        # Bowler hats (Magritte signature)
-        for _ in range(4):
-            x = random.uniform(100, 412)
-            y = random.uniform(100, 412)
-            self.elements.append(FloatingElement(x, y, 'bowler_hat'))
+        # States: 0=noise, 1=numbers, 2=noise (removed sequence state)
+        self.current_state = 0
         
-        # Apples (Son of Man reference)
-        for _ in range(3):
-            x = random.uniform(120, 392)
-            y = random.uniform(120, 392)
-            self.elements.append(FloatingElement(x, y, 'apple'))
+        # Big number overlay system with enhanced transitions
+        self.big_number_active = False
+        self.big_number_char = '0'
+        self.big_number_timer = 0
+        self.big_number_duration = 0
+        self.transition_active = False
+        self.transition_timer = 0
+        self.transition_phase = 0  # 0=mask_in, 1=display, 2=mask_out
+        self.mask_in_duration = 60   # 2 seconds to mask in
+        self.display_duration = 60   # 2 seconds display
+        self.mask_out_duration = 60  # 2 seconds to mask out
+        self.big_number_mask = []  # Which cells are part of big number
+        self.next_big_number_time = random.randint(180, 480)  # 6-16 seconds
         
-        # Sky state
-        self.time = 0
-        self.sky_phase = 0
-        self.dream_intensity = 0
+        # Green grayscale colors (16 levels)
+        self.green_colors = [0, 1, 1, 1, 3, 3, 3, 11, 11, 11, 11, 11, 7, 7, 7, 7]
+        
+        # Sound timing
+        self.sound_timer = 0
+        self.last_pulse = 0
         
         pyxel.run(self.update, self.draw)
     
@@ -236,88 +77,278 @@ class FloatingInTheSky:
         if pyxel.btnp(pyxel.KEY_Q):
             pyxel.quit()
         
-        # Update all floating elements
-        for element in self.elements:
-            element.update(self.time)
+        self.frame_counter += 1
+        self.sound_timer += 1
         
-        # Update surreal atmosphere
-        self.sky_phase += 0.01
-        self.dream_intensity = (math.sin(self.sky_phase) + 1) / 2
+        # Determine current state based on cycle
+        cycle_pos = self.frame_counter % self.cycle_length
+        if cycle_pos < 120:  # 0-119: noise
+            self.current_state = 0
+        elif cycle_pos < 240:  # 120-239: numbers
+            self.current_state = 1
+        else:  # 240-359: noise
+            self.current_state = 2
         
-        # Sound triggers - surreal and atmospheric
-        if self.time % 150 == 0 and random.random() < 0.4:
-            pyxel.play(0, 0, loop=False)  # Dreamy atmosphere
+        # Update grid content based on state
+        self.update_grid_content()
         
-        if self.time % 200 == 100 and random.random() < 0.3:
-            pyxel.play(1, 1, loop=False)  # Floating whisper
+        # Manage big number overlay
+        self.manage_big_number()
         
-        # Surreal harmony
-        if self.time % 180 == 90 and random.random() < 0.35:
-            pyxel.play(2, 2, loop=False)  # Surreal harmony
+        # Sound management
+        self.manage_sound()
+    
+    def update_grid_content(self):
+        # Skip updates during display phase only
+        if self.transition_active and self.transition_phase == 1:
+            return
+            
+        if self.current_state == 0 or self.current_state == 2:  # Noise states
+            # Random noise with numbers and spaces (2x density)
+            for y in range(self.grid_size):
+                for x in range(self.grid_size):
+                    if random.random() < 0.6:  # 60% chance to change (2x density)
+                        if random.random() < 0.85:  # 85% numbers, 15% spaces
+                            self.grid[y][x] = str(random.randint(0, 9))
+                            self.intensity_grid[y][x] = random.uniform(0.1, 1.0)
+                        else:
+                            self.grid[y][x] = ' '
+                            self.intensity_grid[y][x] = 0.0
         
-        # Impossible sounds
-        if self.time % 120 == 60 and random.random() < 0.25:
-            pyxel.play(1, 3, loop=False)  # Impossible sound
+        elif self.current_state == 1:  # Numbers state
+            # More numbers, higher intensity (2x density)
+            for y in range(self.grid_size):
+                for x in range(self.grid_size):
+                    if random.random() < 0.8:  # 80% chance to change (2x density)
+                        if random.random() < 0.95:  # 95% numbers, 5% spaces
+                            self.grid[y][x] = str(random.randint(0, 9))
+                            self.intensity_grid[y][x] = random.uniform(0.2, 1.0)
+                        else:
+                            self.grid[y][x] = ' '
+                            self.intensity_grid[y][x] = 0.0
+    
+    def manage_big_number(self):
+        # Check if it's time to trigger a big number transition
+        if not self.big_number_active and not self.transition_active and self.frame_counter >= self.next_big_number_time:
+            self.transition_active = True
+            self.transition_timer = 0
+            self.transition_phase = 0  # Start with mask in
+            self.big_number_char = str(random.randint(0, 9))
+            self.create_big_number_mask()
+            
+            # Fill grid completely with numbers for transition start
+            self.fill_grid_with_numbers()
+            
+            # Play special sound for big number
+            pyxel.play(3, 4, loop=False)
         
-        # Sky movement
-        if self.time % 240 == 120 and random.random() < 0.4:
-            pyxel.play(0, 4, loop=False)  # Sky movement
+        # Update transition phases
+        if self.transition_active:
+            self.transition_timer += 1
+            
+            if self.transition_phase == 0:  # Mask in phase
+                if self.transition_timer >= self.mask_in_duration:
+                    self.transition_phase = 1
+                    self.transition_timer = 0
+                    
+            elif self.transition_phase == 1:  # Display phase
+                if self.transition_timer >= self.display_duration:
+                    self.transition_phase = 2
+                    self.transition_timer = 0
+                    
+            elif self.transition_phase == 2:  # Mask out phase
+                if self.transition_timer >= self.mask_out_duration:
+                    self.transition_active = False
+                    self.transition_phase = 0
+                    # Schedule next big number
+                    self.next_big_number_time = self.frame_counter + random.randint(180, 480)
+    
+    def create_big_number_mask(self):
+        # Create mask showing which cells are part of the big number
+        self.big_number_mask = [[False for _ in range(self.grid_size)] for _ in range(self.grid_size)]
         
-        # Distant echoes
-        if self.time % 300 == 150 and random.random() < 0.2:
-            pyxel.play(2, 5, loop=False)  # Distant echo
+        if self.big_number_char not in self.font_data:
+            return
         
-        self.time += 1
+        bitmap = self.font_data[self.big_number_char]
+        cells_per_bit = 8
+        total_width = 8 * cells_per_bit
+        total_height = 8 * cells_per_bit
+        
+        start_x = (self.grid_size - total_width) // 2
+        start_y = (self.grid_size - total_height) // 2
+        
+        # Mark cells that are part of the big number
+        for row in range(8):
+            byte_data = bitmap[row]
+            for col in range(8):
+                if byte_data & (0x80 >> col):
+                    for dy in range(cells_per_bit):
+                        for dx in range(cells_per_bit):
+                            grid_x = start_x + col * cells_per_bit + dx
+                            grid_y = start_y + row * cells_per_bit + dy
+                            
+                            if 0 <= grid_x < self.grid_size and 0 <= grid_y < self.grid_size:
+                                self.big_number_mask[grid_y][grid_x] = True
+    
+    def fill_grid_with_numbers(self):
+        # Fill entire grid with random numbers for transition start
+        for y in range(self.grid_size):
+            for x in range(self.grid_size):
+                self.grid[y][x] = str(random.randint(0, 9))
+                self.intensity_grid[y][x] = random.uniform(0.5, 1.0)
+    
+    # Removed old create_transition_pixels - now using mask-based system
+    
+    def manage_sound(self):
+        # Electronic ambient soundscape
+        if self.sound_timer % 90 == 0:  # Every 3 seconds
+            pyxel.play(0, 0, loop=True)  # Deep pulse
+        
+        if self.sound_timer % 60 == 30:  # Offset mid frequency
+            pyxel.play(1, 1, loop=True)  # Mid hum
+        
+        if self.sound_timer % 120 == 60:  # Bass drone
+            pyxel.play(2, 3, loop=True)
+        
+        # Digital blips based on state changes
+        current_pulse = self.frame_counter // 30
+        if current_pulse != self.last_pulse and self.current_state in [1, 3]:
+            pyxel.play(3, 2, loop=False)  # Digital blip
+            self.last_pulse = current_pulse
+        
+        # High frequency pulse during sequence state
+        if self.current_state == 3 and self.sound_timer % 20 == 0:
+            pyxel.play(3, 4, loop=False)
+    
+    def draw_character(self, char, grid_x, grid_y, intensity):
+        if char not in self.font_data:
+            return
+        
+        bitmap = self.font_data[char]
+        
+        # Calculate screen position
+        screen_x = grid_x * self.cell_size
+        screen_y = grid_y * self.cell_size
+        
+        # Choose color based on intensity
+        color_index = int(intensity * 15)
+        color = self.green_colors[color_index]
+        
+        # Draw 8x8 bitmap
+        for row in range(8):
+            byte_data = bitmap[row]
+            for col in range(8):
+                if byte_data & (0x80 >> col):  # Check if bit is set
+                    pixel_x = screen_x + col
+                    pixel_y = screen_y + row
+                    if 0 <= pixel_x < 512 and 0 <= pixel_y < 512:
+                        pyxel.pset(pixel_x, pixel_y, color)
+    
+    # Removed old draw_big_character - now using mask-based transition system
     
     def draw(self):
-        # Magritte sky - surreal blue with subtle gradation
-        base_color = 12  # Blue
+        # Clear screen with black
+        pyxel.cls(0)
         
-        # Create subtle sky gradation
-        for y in range(512):
-            gradient_factor = y / 512
-            if gradient_factor < 0.3:
-                sky_color = 12  # Blue
-            elif gradient_factor < 0.7:
-                sky_color = 6   # Light gray
-            else:
-                sky_color = 7   # White (clouds blending into sky)
-            
-            # Draw gradient line with dream intensity variation
-            if random.random() < 0.95 + self.dream_intensity * 0.05:
-                pyxel.line(0, y, 512, y, sky_color)
-        
-        # Sort elements by distance (depth illusion)
-        sorted_elements = sorted(self.elements, key=lambda e: e.y + e.size, reverse=True)
-        
-        # Draw all floating elements
-        for element in sorted_elements:
-            element.draw()
-        
-        # Occasional surreal effects
-        if int(self.sky_phase * 100) % 300 < 50:
-            self.draw_impossible_shadows()
+        # Draw grid content or transition effect
+        if self.transition_active:
+            self.draw_transition()
+        else:
+            # Normal grid drawing
+            for y in range(self.grid_size):
+                for x in range(self.grid_size):
+                    char = self.grid[y][x]
+                    intensity = self.intensity_grid[y][x]
+                    if char != ' ' and intensity > 0:
+                        self.draw_character(char, x, y, intensity)
     
-    def draw_impossible_shadows(self):
-        """Draw shadows that don't correspond to objects (Magritte style)"""
-        shadow_color = 5  # Dark gray
-        
-        # Random impossible shadows
-        for _ in range(3):
-            if random.random() < 0.3:
-                shadow_x = random.randint(50, 450)
-                shadow_y = random.randint(400, 480)
-                shadow_width = random.randint(30, 80)
-                shadow_height = random.randint(8, 15)
-                
-                # Draw elliptical shadow
-                for x in range(shadow_width):
-                    for y in range(shadow_height):
-                        if ((x - shadow_width//2) ** 2) / (shadow_width//2) ** 2 + \
-                           ((y - shadow_height//2) ** 2) / (shadow_height//2) ** 2 <= 1:
-                            px = shadow_x + x - shadow_width//2
-                            py = shadow_y + y - shadow_height//2
-                            if 0 <= px < 512 and 0 <= py < 512:
-                                pyxel.pset(px, py, shadow_color)
+    def draw_transition(self):
+        # Handle different transition phases
+        if self.transition_phase == 0:  # Mask in: fade out non-mask areas
+            fade_progress = self.transition_timer / self.mask_in_duration
+            
+            # Update numbers continuously during mask in phase
+            if random.random() < 0.6:  # 60% chance to update some cells
+                for _ in range(random.randint(5, 15)):  # Update 5-15 random cells
+                    x = random.randint(0, self.grid_size - 1)
+                    y = random.randint(0, self.grid_size - 1)
+                    if random.random() < 0.85:
+                        self.grid[y][x] = str(random.randint(0, 9))
+                        self.intensity_grid[y][x] = random.uniform(0.1, 1.0)
+                    else:
+                        self.grid[y][x] = ' '
+                        self.intensity_grid[y][x] = 0.0
+            
+            for y in range(self.grid_size):
+                for x in range(self.grid_size):
+                    char = self.grid[y][x]
+                    if char != ' ':
+                        if self.big_number_mask[y][x]:
+                            # Keep mask area visible
+                            intensity = self.intensity_grid[y][x]
+                        else:
+                            # Fade out non-mask areas with random timing
+                            cell_fade_delay = (x + y * self.grid_size) % 30  # Faster stagger fade
+                            if self.transition_timer > cell_fade_delay:
+                                fade_amount = min(1.0, (self.transition_timer - cell_fade_delay) / 30)
+                                intensity = self.intensity_grid[y][x] * (1.0 - fade_amount)
+                            else:
+                                intensity = self.intensity_grid[y][x]
+                        
+                        if intensity > 0.05:
+                            self.draw_character(char, x, y, intensity)
+                            
+        elif self.transition_phase == 1:  # Display: show only mask area
+            for y in range(self.grid_size):
+                for x in range(self.grid_size):
+                    if self.big_number_mask[y][x]:
+                        char = self.grid[y][x]
+                        if char != ' ':
+                            # Add slight flickering to big number
+                            base_intensity = self.intensity_grid[y][x]
+                            flicker = 0.9 + 0.1 * math.sin(self.transition_timer * 0.1 + x * 0.1 + y * 0.1)
+                            intensity = base_intensity * flicker
+                            self.draw_character(char, x, y, intensity)
+                            
+        elif self.transition_phase == 2:  # Mask out: fade in background around mask
+            fade_progress = self.transition_timer / self.mask_out_duration
+            
+            # Update background numbers continuously during mask out
+            if random.random() < 0.4:  # 40% chance to update some cells
+                for _ in range(random.randint(3, 10)):  # Update 3-10 random cells
+                    x = random.randint(0, self.grid_size - 1)
+                    y = random.randint(0, self.grid_size - 1)
+                    if not self.big_number_mask[y][x]:  # Only update non-mask areas
+                        if random.random() < 0.85:
+                            self.grid[y][x] = str(random.randint(0, 9))
+                            self.intensity_grid[y][x] = random.uniform(0.3, 1.0)
+                        else:
+                            self.grid[y][x] = ' '
+                            self.intensity_grid[y][x] = 0.0
+            
+            # Draw the big number (fading out)
+            for y in range(self.grid_size):
+                for x in range(self.grid_size):
+                    if self.big_number_mask[y][x]:
+                        char = self.grid[y][x]
+                        if char != ' ':
+                            intensity = self.intensity_grid[y][x] * (1.0 - fade_progress)
+                            if intensity > 0.05:
+                                self.draw_character(char, x, y, intensity)
+            
+            # Draw background numbers (fading in)
+            for y in range(self.grid_size):
+                for x in range(self.grid_size):
+                    if not self.big_number_mask[y][x]:
+                        char = self.grid[y][x]
+                        if char != ' ':
+                            # Fade in with staggered timing
+                            cell_appear_delay = ((x * 7 + y * 11) % 40)  # Faster random stagger
+                            if self.transition_timer > cell_appear_delay:
+                                appear_amount = min(1.0, (self.transition_timer - cell_appear_delay) / 20)
+                                intensity = self.intensity_grid[y][x] * appear_amount
+                                if intensity > 0.05:
+                                    self.draw_character(char, x, y, intensity)
 
-FloatingInTheSky()
+KraftwerkMatrix()
