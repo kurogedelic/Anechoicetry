@@ -12,19 +12,21 @@ import random
 import math
 
 class Cloud:
-    def __init__(self, x, y, size):
+    def __init__(self, x, y, size, depth=1.0):
         self.x = x
         self.y = y
         self.size = size
-        self.base_speed = 0.01  # Very slow base movement
+        self.depth = depth  # For parallax effect (1.0 = foreground, 0.5 = background)
+        self.base_speed = 0.3 * depth  # Faster speed with parallax
         self.speed_modifier = 1.0
         self.shape = self.generate_cloud_shape()
     
     def generate_cloud_shape(self):
-        # Generate simple cloud shape as a list of offset circles
+        # Generate very horizontal cloud shape
         shapes = []
-        for i in range(random.randint(3, 6)):
-            offset_x = random.randint(-self.size//2, self.size//2)
+        for i in range(random.randint(5, 8)):
+            # Much more horizontal spread
+            offset_x = random.randint(-self.size * 2, self.size * 2)
             offset_y = random.randint(-self.size//4, self.size//4)
             radius = random.randint(self.size//3, self.size//2)
             shapes.append((offset_x, offset_y, radius))
@@ -37,11 +39,37 @@ class Cloud:
             self.x = -100
     
     def draw(self):
+        # Choose colors based on depth for parallax effect
+        if self.depth < 0.7:  # Background clouds
+            cloud_color = 13  # Light gray
+            shadow_color = 5   # Dark gray
+        else:  # Foreground clouds
+            cloud_color = 7    # White
+            shadow_color = 6   # Gray
+            
         for offset_x, offset_y, radius in self.shape:
             center_x = int(self.x + offset_x)
             center_y = int(self.y + offset_y)
             if center_x > -radius and center_x < 512 + radius:
-                pyxel.circ(center_x, center_y, radius, 7)  # White clouds
+                # Draw shadow with dither pattern (offset down and right)
+                shadow_x = center_x + int(3 * self.depth)
+                shadow_y = center_y + int(5 * self.depth)
+                self.draw_dithered_circle(shadow_x, shadow_y, radius, shadow_color)
+                
+                # Draw main cloud
+                pyxel.circ(center_x, center_y, radius, cloud_color)
+    
+    def draw_dithered_circle(self, cx, cy, radius, color):
+        # Create dithered shadow effect using checkerboard pattern
+        for y in range(cy - radius, cy + radius + 1):
+            for x in range(cx - radius, cx + radius + 1):
+                if x >= 0 and x < 512 and y >= 0 and y < 512:
+                    # Check if point is within circle
+                    distance = math.sqrt((x - cx) ** 2 + (y - cy) ** 2)
+                    if distance <= radius:
+                        # Dither pattern: checkerboard based on coordinates
+                        if (x + y) % 2 == 0:
+                            pyxel.pset(x, y, color)
 
 class Building:
     def __init__(self, x, base_y, width, height):
@@ -154,37 +182,48 @@ class EmpireOfGlow:
         pyxel.sounds[2].set("g3", "p", "1", "v", 10)      # Occasional click
         pyxel.sounds[3].set("a1g1", "n", "21", "n", 60)   # Wind-like noise
         
-        # Sky and clouds
+        # Sky and clouds with parallax layers
         self.sky_color = 12  # Light blue
         self.clouds = []
-        for i in range(6):
-            x = random.randint(-50, 512)
-            y = random.randint(50, 150)
-            size = random.randint(20, 40)
-            self.clouds.append(Cloud(x, y, size))
         
-        # Buildings (night-time silhouettes)
+        # Background layer (slower, lighter)
+        for i in range(3):
+            x = random.randint(-100, 512)
+            y = random.randint(30, 120)
+            size = random.randint(80, 120)  # Larger background clouds
+            depth = random.uniform(0.3, 0.6)  # Background depth
+            self.clouds.append(Cloud(x, y, size, depth))
+        
+        # Foreground layer (faster, brighter)
+        for i in range(3):
+            x = random.randint(-100, 512)
+            y = random.randint(60, 180)
+            size = random.randint(60, 100)  # Smaller foreground clouds
+            depth = random.uniform(0.8, 1.0)  # Foreground depth
+            self.clouds.append(Cloud(x, y, size, depth))
+        
+        # Buildings (night-time silhouettes) - back to original height
         self.buildings = []
         current_x = 0
         while current_x < 512:
             width = random.randint(40, 80)
             height = random.randint(80, 180)
-            base_y = 400 + random.randint(-20, 20)
+            base_y = 400 + random.randint(-20, 20)  # Back to original height
             self.buildings.append(Building(current_x, base_y, width, height))
             current_x += width + random.randint(5, 15)
         
-        # Street lights
+        # Street lights - back to original positions
         self.street_lights = []
         for i in range(8):
             x = random.randint(50, 462)
-            y = random.randint(320, 380)
+            y = random.randint(320, 380)  # Back to original
             self.street_lights.append(StreetLight(x, y))
         
-        # Trees
+        # Trees - back to original positions
         self.trees = []
         for i in range(5):
             x = random.randint(30, 482)
-            base_y = random.randint(380, 420)
+            base_y = random.randint(380, 420)  # Back to original
             self.trees.append(Tree(x, base_y))
         
         # Mouse interaction
@@ -195,8 +234,8 @@ class EmpireOfGlow:
         self.ambient_timer = 0
         self.click_timer = 0
         
-        # Water reflection area (optional)
-        self.water_y = 450
+        # Water reflection area - raised to building lower section
+        self.water_y = 350  # Higher up to reach building lower parts
         
         pyxel.run(self.update, self.draw)
     
@@ -241,8 +280,9 @@ class EmpireOfGlow:
         # Clear with day sky color
         pyxel.cls(self.sky_color)
         
-        # Draw clouds (day sky)
-        for cloud in self.clouds:
+        # Draw clouds (day sky) - background to foreground
+        sorted_clouds = sorted(self.clouds, key=lambda c: c.depth)
+        for cloud in sorted_clouds:
             cloud.draw()
         
         # Draw water reflection area (if enabled)
@@ -270,9 +310,6 @@ class EmpireOfGlow:
         for light in self.street_lights:
             light.draw()
         
-        # Subtle UI text
-        pyxel.text(10, 10, "The Empire of Glow", 7)
-        pyxel.text(10, 20, "Move cursor to influence time", 6)
-        pyxel.text(10, 490, "Q: Quit", 6)
+        # No UI text - clean aesthetic
 
 EmpireOfGlow()
